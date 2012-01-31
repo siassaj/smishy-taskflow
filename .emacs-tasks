@@ -1,0 +1,65 @@
+;;;;;;;;;;;;;;;;;;;;;;;;; Functionality I want to add ;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Add the ability to have DOING , TODO , etc. If i add a DOING, the lost DOING
+;  Becomes TODO.
+; Make it easy to complete or defer tasks with other keystrokes, would require 
+;  multiple WM Keybinds.
+; Refactor the code to stop repeating
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Define Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
+
+(defun tasks-prepare-top ()
+  "This function will jump to a specified line, newline it and then put a * TODO
+   line in and get ready for input"
+  (interactive)
+  (switch-to-buffer "biglist.org")
+  (delete-other-windows)
+  (goto-line 5)
+  (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
+  (cond ((string= mystr "* TODO ") (move-end-of-line 1))
+	((string= mystr "")
+	 (move-beginning-of-line 1)
+	 (kill-line)
+	 (newline)
+	 (goto-line 5)
+	 (insert "* TODO "))
+	((string-match "^ +$" mystr) ;tests for 1 or more blank spaces only
+	 (move-beginning-of-line 1)
+	 (kill-line)
+	 (newline)
+	 (goto-line 5)
+	 (insert "* TODO "))
+	(t
+	 (move-beginning-of-line 1)
+	 (newline)
+	 (goto-line 5)
+	 (insert "* TODO ")))
+  (save-buffer))
+
+(defun tasks-save-n-go ()
+  (interactive)
+  (tasks-prepare-top)
+  (save-buffer)
+  (shell-command "screen -D emacs-tasks"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Set Hotkeys ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "C-c s") 'tasks-save-n-go)
+(global-set-key (kbd "C-c c") 'tasks-prepare-top)
+; the following keybinds are for when emacs is in an xterm, shift + direction
+; keys return ESC [ 1 ; 2 bla  for some reason (reason is found in ECMA-48)
+(global-set-key (kbd "ESC [ 1 ; 2 D") (kbd "<S-left>"))
+(global-set-key (kbd "ESC [ 1 ; 2 C") (kbd "<S-right>"))
+(global-set-key (kbd "ESC [ 1 ; 2 A") (kbd "<S-up>"))
+(global-set-key (kbd "ESC [ 1 ; 2 B") (kbd "<S-down>"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Do Procedures ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(find-file "~/org/biglist.org")
+(switch-to-buffer "biglist.org")
+(tasks-prepare-top)
+(server-mode 1)
+(setq server-name "emacs-tasks")
+(server-start)
+(switch-to-buffer "biglist.org")
+(load-file "/home/quazimodo/emacsLibs/screen.el")
