@@ -58,8 +58,4 @@
 (find-file "~/org/biglist.org")
 (switch-to-buffer "biglist.org")
 (tasks-prepare-top)
-(server-mode 1)
-(setq server-name "emacs-tasks")
-(server-start)
-(switch-to-buffer "biglist.org")
 (load-file "/home/quazimodo/emacsLibs/screen.el")
