@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<Description>
+  <name>emacs-tasks</name>
+  <description>This program adds the emacs-tasks functionality to an org mode enabled emacs</description>
+  <compatibility>emacs v23.3 with org-mode 7.6-1</compatibility>
+</Description>
