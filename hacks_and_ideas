@@ -1,0 +1,1 @@
+fledermaus> quazimodo: apply a keymap property to an verlay on the region you want to lock which doesn't have self-insert-command or similar text altering stuff in it
