@@ -10,5 +10,5 @@
 if [[ `screen -ls | grep -owc "emacs-tasks"` = 1 ]]; then
     xterm -fa monaco -fs 12 -geometry 80x74 -e screen -raAd emacs-tasks
 else
-    screen -dmS emacs-tasks emacs -nw -q -l /home/quazimodo/.emacs-tasks
+    screen -dmS emacs-tasks emacs -nw -q -l /home/quazimodo/Code/emacs-tasks/.emacs-tasks
 fi
