@@ -16,9 +16,9 @@
           (delq (current-buffer) 
                 (remove-if-not 'buffer-file-name (buffer-list)))))
 (defun reload-tasks ()
-  "Function to reload .emacs-tasks, used during devel"
+  "Function to reload .smishy-taskflow, used during devel"
   (interactive)
-  (load-file "~/Code/emacs-tasks/.emacs-tasks"))
+  (load-file "~/Code/smishy-taskflow/.smishy-taskflow"))
 
 (defun tasks-prepare-top ()
   "This function will jump to a specified line, newline it and then put a * DO
@@ -28,31 +28,31 @@
   (delete-other-windows)
   (goto-line work-line)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
-  (cond ((string= mystr "* NEXT STEP ") (move-end-of-line 1))
+  (cond ((string= mystr "* DO ") (move-end-of-line 1))
         ((string= mystr "")
          (move-beginning-of-line 1)
          (kill-line)
          (newlbine)
          (goto-line work-line)
-         (insert "* NEXT STEP "))
+         (insert "* DO "))
         ((string-match "^ +$" mystr) ;tests for 1 or more blank spaces only
          (move-beginning-of-line 1)
          (kill-line)
          (newline)
          (goto-line work-line)
-         (insert "* NEXT STEP "))
+         (insert "* DO "))
         (t
          (move-beginning-of-line 1)
          (newline)
          (goto-line work-line)
-         (insert "* NEXT STEP ")))
+         (insert "* DO ")))
   (goto-line (+ 1 work-line))
-  (if (string-match "\* NEXT STEP ." mystr)
+  (if (string-match "\* DO ." mystr)
       (org-todo "TODO"))
   (setq mystr2 (buffer-substring (point-at-bol) (point-at-eol)))
   (goto-line (+ 2 work-line))
   (if (and (string-match "\* TODO " mystr2) 
-           (string-match "\* NEXT STEP ." mystr))
+           (string-match "\* DO ." mystr))
       (org-todo "TODO"))
   (goto-line work-line)
   (move-end-of-line 1)
@@ -63,7 +63,7 @@
   (interactive)
   (tasks-prepare-top)
   (save-buffer)
-  (shell-command "screen -D emacs-tasks"))
+  (shell-command "screen -D smishy-taskflow"))
 
 (defun tasks-toggle-done ()
   "Finish task on the current line and save it at the bottom as 'DONE'"
@@ -99,7 +99,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Set Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq work-line 9) ;set what line you will be entering your task
-(setq org-todo-keywords '((sequence "NEXT STEP" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
+(setq org-todo-keywords '((sequence "DO" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
 (setq org-todo-keyword-faces
       '(("DO" . (:foreground "black" :background "brightyellow"))
         ("DOING" . (:foreground "black" :background "yellow"))
@@ -141,7 +141,9 @@
 (find-file "~/org/biglist.org")
 (switch-to-buffer "biglist.org")
 (tasks-prepare-top)
-(load-file "/home/quazimodo/Code/emacs-tasks/screen.el")
+(load-file "/home/quazimodo/Code/smishy-taskflow/screen.el")
+
+
 ;;;;;;;;;;;;;;;;;;;;;; Set After Org Load Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (set-face-foreground 'org-tag "color-235")
 (org-agenda-file-to-front "~/org/biglist.org")
@@ -154,8 +156,12 @@
                     (todo "TODO"))))))
 (setq org-lowest-priority 69)
 (setq org-default-priority 68)
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Test Stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun foo ()
+(defun lock-spaces-down ()
   "This function makes the entire document read only, except for a space on
 the work line. It is problematic as I still cant apply functions properly..."
   (interactive)

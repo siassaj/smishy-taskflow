@@ -1,0 +1,14 @@
+#+STARTUP: hidestars
+#+STARTUP: showall
+# The Smishy taskflow :D
+# C-c c to make new TODO (or add a "Next Step")
+# C-c s to save and pop out of the list, 
+# C-c k to kill current task
+
+
+
+* PROJECT Pick Up Sticks                                             :STICKS:
+** TODO Go to park
+   SCHEDULED: <2013-05-23 Thu 18:00>
+** TODO Stare at birds
+** TODO Find sticks

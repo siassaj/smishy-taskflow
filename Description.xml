@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <Description>
-  <name>emacs-tasks</name>
-  <description>This program adds the emacs-tasks functionality to an org mode enabled emacs</description>
-  <compatibility>emacs v23.3 with org-mode 7.6-1</compatibility>
+  <name>smishy-taskflow</name>
+  <description>This program adds the smishy-taskflow functionality to an org mode enabled emacs</description>
+  <compatibility>Working with emacs v24.2.1 with org-mode 7.8.11</compatibility>
 </Description>
