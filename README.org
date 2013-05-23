@@ -1,0 +1,94 @@
+
+#                                             __                  
+#                                 __         /\ \                 
+#                ____    ___ ___ /\_\    ____\ \ \___   __  __    
+#               /',__\ /' __` __`\/\ \  /',__\\ \  _ `\/\ \/\ \   
+#              /\__, `\/\ \/\ \/\ \ \ \/\__, `\\ \ \ \ \ \ \_\ \  
+#              \/\____/\ \_\ \_\ \_\ \_\/\____/ \ \_\ \_\/`____ \ 
+#               \/___/  \/_/\/_/\/_/\/_/\/___/   \/_/\/_/`/___/> \
+#                                                           /\___/
+#                                                           \/__/ 
+#       __                     __         ___  ___                         
+#      /\ \__                 /\ \      /'___\/\_ \                        
+#      \ \ ,_\    __      ____\ \ \/'\ /\ \__/\//\ \     ___   __  __  __  
+#       \ \ \/  /'__`\   /',__\\ \ , < \ \ ,__\ \ \ \   / __`\/\ \/\ \/\ \ 
+#        \ \ \_/\ \L\.\_/\__, `\\ \ \\`\\ \ \_/  \_\ \_/\ \L\ \ \ \_/ \_/ \
+#         \ \__\ \__/.\_\/\____/ \ \_\ \_\ \_\   /\___ \ \____/\ \___x___/'
+#          \/__/\/__/\/_/\/___/   \/_/\/_/\/_/   \/____/\/___/  \/__//__/  
+                                                                          
+
+* README
+  Smishy taskflow is an attempt at GTD (getting things done) running on emacs
+  with org-mode. It's meant to be very simple, very quick and completely out of
+  the way. Ideally it is switched into view, interacted with, and switched
+  away. This is an attempt at mechanising the 'working process'. 
+
+  I've found it incredibly useful - Hope you do too :)
+
+* INSTALLATION
+
+  NOTE: This is currently not a 'release' candidate (infact I knocked it up
+  between breaks), so there is significant code repetition and no testing
+  suite... Shame on me!
+
+  BUT installation is pretty simple actually, though you'll have to rely on your
+  window manager to some extent for binding keys to open the taskflow window.
+
+  1) Key bind smishy-taskflow-open.sh to some key combo (I use the windows key
+  and ~)
+
+  2) Edit smishy-taskflow-open.sh and set the variable "config_location" to the
+  full path of the .smishy-taskflow file
+
+  3) Edit .smishy-taskflow and edit line 141 to the path of your GTD list
+  which must be a .org file. For example "~/GTD/gtd-list.org".
+
+  4) Edit .smishy-taskflow and edit line 142 to the name of the GTD list, eg
+  "gtd-list.org".
+
+  5) Edit .smishy-taskflow and edit line 144 to the path of screen.el which
+  comes with smishy-taskflow
+
+  6) Edit .smishy-taskflow and edit line 149 to the path of the GTD list, as in
+  step 3
+
+* USAGE
+  ### NOTE ###
+  I'll be creating a usage video soon because this list doesn't do the process
+  justice. It's really quick and nice, imho.
+
+** STEP 1 - Adding Actionable Items
+   I'll be working, then I'll receive some instructions/mail or have a thought,
+   etc.
+   
+   At this point I open the taskflow, press C-c c to make new DO (or Next Step)
+   and fill it in with an actionable next step and type C-c c again to make it
+   into a TODO. At this point I'll use org-mode's [#A] [#B] etc priorities, set
+   up the scheduling or deadline and move it into a new or existing PROJECT
+
+   Projects are made easily, just like:
+  * PROJECT project-name
+   and you can tag projects with C-c C-c. This is really useful for the next
+   step.
+
+   At this point, once I've used C-c c a bunch to add items, date them, organise
+   them as per standard org-mode methods I'll do C-c s to save and close the
+   emacs frame.
+
+** STEP 2 - Reviewing Actionable Items To Do Work
+   
+   I open the taskflow again using my keyboard shortcuts and review what needs
+   doing with C-c h, C-c t or C-c n. You can customise these keybinds, they work
+   for me.
+
+   C-c h is by far the most useful and shows me a 1 week calendar along with
+   pending tasks and done tasks. I'll pick the next task that needs doing and close
+   the emacs frame. Once it's done I'll reopen the frame, navigate to it by
+   pressing n or p to up or down, and tab to navigate to it in my actual
+   list. From here I C-c d to mark it as done, pick the next task, and repeat.
+
+   CONTACT
+   ssaj.work@gmail.com
+
+   GIT
+   https://github.com/quazimodo
