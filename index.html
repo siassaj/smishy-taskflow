@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Smishy-taskflow by quazimodo</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Smishy-taskflow</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/quazimodo/smishy-taskflow">View the Project on GitHub <small>quazimodo/smishy-taskflow</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/quazimodo/smishy-taskflow/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/quazimodo/smishy-taskflow/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/quazimodo/smishy-taskflow">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>__</h1>
+
+<h1>__         /\ \</h1>
+
+<h1>____    ___ ___ /_\    ____\ \ ___   __  __</h1>
+
+<h1>/',__\ /' __<code>__</code>\/\ \  /',__\ \  _ `\/\ \/\ \</h1>
+
+<h1>/__, <code>\/\ \/\ \/\ \ \ \/\__,</code>\ \ \ \ \ \ _\ \</h1>
+
+<h1>\/____/\ _\ _\ _\ _\/____/ \ _\ _\/`____ \</h1>
+
+<h1>\/___/  \/_/\/_/\/_/\/_/\/___/   \/_/\/_/`/___/&gt; \</h1>
+
+<h1>/___/</h1>
+
+<h1>\/__/</h1>
+
+<h1>__                     __         ___  ___</h1>
+
+<h1>/\ __                 /\ \      /'___\/_ \</h1>
+
+<h1>\ \ ,_\    __      ____\ \ \/'\ /\ __/\//\ \     ___   __  __  __</h1>
+
+<h1>\ \ \/  /'__<code>\   /',__\\ \ , &lt; \ \ ,__\ \ \ \   / __</code>\/\ \/\ \/\ \</h1>
+
+<h1>\ \ _/\ \L._/__, <code>\\ \ \\</code>\ \ _/  _\ _/\ \L\ \ \ _/ _/ \</h1>
+
+<h1>\ __\ __/._\/____/ \ _\ _\ _\   /___ \ ____/\ ___x___/'</h1>
+
+<h1>\/__/\/__/\/_/\/___/   \/_/\/_/\/_/   \/____/\/___/  \/__//__/</h1>
+
+<ul>
+<li>
+<p>README
+Smishy taskflow is an attempt at GTD (getting things done) running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away. This is an attempt at mechanising the 'working process'. </p>
+
+<p>I've found it incredibly useful - Hope you do too :)</p>
+</li>
+<li>
+<p>INSTALLATION</p>
+
+<p>NOTE: This is currently not a 'release' candidate (infact I knocked it up between breaks), so there is significant code repetition and no testing suite... Shame on me!</p>
+
+<p>BUT installation is pretty simple actually, though you'll have to rely on your window manager to some extent for binding keys to open the taskflow window.</p>
+</li>
+</ul><ol>
+<li><p>Key bind smishy-taskflow-open.sh to some key combo (I use the windows key and ~)</p></li>
+<li><p>Edit smishy-taskflow-open.sh and set the variable "config_location" to the full path of the .smishy-taskflow file</p></li>
+<li><p>Edit .smishy-taskflow and edit line 141 to the path of your GTD list which must be a .org file. For example "~/GTD/gtd-list.org".</p></li>
+<li><p>Edit .smishy-taskflow and edit line 142 to the name of the GTD list, eg "gtd-list.org".</p></li>
+<li><p>Edit .smishy-taskflow and edit line 144 to the path of screen.el which comes with smishy-taskflow</p></li>
+<li><p>Edit .smishy-taskflow and edit line 149 to the path of the GTD list, as in step 3</p></li>
+</ol><ul>
+<li>USAGE
+### NOTE ###
+I'll be creating a usage video soon because this list doesn't do the process justice. It's really quick and nice, imho.</li>
+</ul><p>** STEP 1 - Adding Actionable Items
+   I'll be working, then I'll receive some instructions/mail or have a thought etc.</p>
+
+<p>At this point I open the taskflow, press C-c c to make new DO (or Next Step) and fill it in with an actionable next step and type C-c c again to make it
+   into a TODO. At this point I'll use org-mode's [#A] [#B] etc priorities, set up the scheduling or deadline and move it into a new or existing PROJECT</p>
+
+<p>Projects are made easily, just like</p>
+
+<ul>
+<li>
+<p>PROJECT project-name
+and you can tag projects with C-c C-c. This is really useful for the next step.</p>
+
+<p>At this point, once I've used C-c c a bunch to add items, date them, organise them as per standard org-mode methods I'll do C-c s to save and close the emacs frame.</p>
+</li>
+</ul><p>** STEP 2 - Reviewing Actionable Items To Do Work</p>
+
+<p>I open the taskflow again using my keyboard shortcuts and review what needs doing with C-c h, C-c t or C-c n. You can customise these keybinds, they work for me.</p>
+
+<p>C-c h is by far the most useful and shows me a 1 week calendar along with pending tasks and done tasks. I'll pick the next task that needs doing and close the emacs frame. Once it's done I'll reopen the frame, navigate to it by pressing n or p to up or down, and tab to navigate to it in my actual list. From here I C-c d to mark it as done, pick the next task, and repeat.</p>
+
+<ul>
+<li><p>CONTACT
+<a href="mailto:ssaj.work@gmail.com">ssaj.work@gmail.com</a></p></li>
+<li><p>GIT
+<a href="https://github.com/quazimodo">https://github.com/quazimodo</a></p></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/quazimodo">quazimodo</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
