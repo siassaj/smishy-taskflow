@@ -6,8 +6,7 @@
 # C-c k to kill current task
 
 
-
-* PROJECT Pick Up Sticks                                             :STICKS:
+* DO 
 ** TODO Go to park
    SCHEDULED: <2013-05-23 Thu 18:00>
 ** TODO Stare at birds
