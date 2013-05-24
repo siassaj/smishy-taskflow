@@ -24,21 +24,17 @@
 
 * INSTALLATION
 
-  NOTE: This is currently not a 'release' candidate (infact I knocked it up between breaks), so there is significant code repetition and no testing suite... Shame on me!
+  NOTE: This is currently not a 'release' candidate. It works, but needs some more work
 
-  BUT installation is pretty simple actually, though you'll have to rely on your window manager to some extent for binding keys to open the taskflow window.
+  Installation is easy though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own emacs instance.
 
-  1. Key bind smishy-taskflow-open.sh to some key combo (I use the windows key and ~)
+  1. Clone this repo somewhere, I personally would put it in ~/.emacs.d/vendor/smishy-taskflow
 
-  2. Edit smishy-taskflow-open.sh and set the variable "config_location" to the full path of the .smishy-taskflow file
+  2. Create your config file. I personally put it in ~/.emacs.d/smishy-taskflow-init.el. You can use sample-init.el as an example for how to create the initialiser. Set the argument to smishy-start-taskflow to the path of your todo list (it shoud be a .org file, you can use example-list.org to get an idea).
 
-  3. Edit .smishy-taskflow and edit line 141 to the path of your GTD list which must be a .org file. For example "~/GTD/gtd-list.org".
+  3. Edit smishy-taskflow-open.sh and set the variable "config_location" to the full path of the new initialiser file. I use ~/.emacs.d/smishy-taskflow-init.el
 
-  4. Edit .smishy-taskflow and edit line 142 to the name of the GTD list, eg "gtd-list.org".
-
-  5. Edit .smishy-taskflow and edit line 144 to the path of screen.el which comes with smishy-taskflow
-
-  6. Edit .smishy-taskflow and edit line 149 to the path of the GTD list, as in step 3
+  4. Key bind smishy-taskflow-open.sh to some key combo in your window manager (I use the M-~)
 
 * USAGE
   ### NOTE ###
