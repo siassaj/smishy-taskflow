@@ -195,13 +195,13 @@
   (interactive)
   (load-file "screen.el")
   (let ((buff (find-file-noselect file-path)))
-    (pop-to-buffer buff))
-  (add-to-list 'org-agenda-files file-path)
+    (pop-to-buffer buff)
+    (add-to-list 'org-agenda-files (buffer-file-name buff)))
   (smishy-set-variables)
   (smishy-set-faces)
   (smishy-set-key-bindings)
   (smishy-reload-top)
-  (org-mode-restart))
+  (org-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Test stuff, Ignore! ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
