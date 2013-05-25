@@ -18,7 +18,7 @@
                                                                           
 
 * VERSION
-  - v1.0.1
+  - v1.1
 
 * README
   Smishy taskflow is an attempt at GTD (getting things done) running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away. This is an attempt at mechanising the 'working process'. 
