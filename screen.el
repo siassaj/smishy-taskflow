@@ -1,3 +1,7 @@
+;; This file was written (I think) by Andreas Marschke, you can find it at
+;; https://github.com/andreas-marschke/emacs-config/blob/master/rc/emacs-rc-screen.el
+;; No license supplied, so copyright is his :)
+;;
 ;; With Screen between Emacs and the "real" terminal, it doesn't occur
 ;; to Emacs to translate some keybindings.  Teach it about a handful
 ;; that are important to me (because paredit uses them).  Don't bother
