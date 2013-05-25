@@ -55,40 +55,44 @@
               (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun smishy-reload-top ()
-  "This function will jump to a specified line, newline it and then put a * DO
+  "This function will jump to a specified line, newline it and then put a * NEXT ACTION
    line in and get ready for input"
   (interactive)
   ;; (switch-to-buffer "biglist.org")
   (delete-other-windows)
   (goto-line smishy-work-line)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
-  (cond ((string= mystr "* DO ") (move-end-of-line 1))
+  (cond ((string= mystr "* NEXT ACTION ") (move-end-of-line 1))
+        ((string= mystr "* NEXT ACTION")
+         (move-beginning-of-line 1)
+         (kill-line)
+         (insert "* NEXT ACTION "))
         ((string= mystr "")
          (move-beginning-of-line 1)
          (kill-line)
          (newline)
          (goto-line smishy-work-line)
-         (insert "* DO "))
+         (insert "* NEXT ACTION "))
         ((string-match "^ +$" mystr) ;tests for 1 or more blank spaces only
          (move-beginning-of-line 1)
          (kill-line)
          (newline)
          (goto-line smishy-work-line)
-         (insert "* DO "))
+         (insert "* NEXT ACTION "))
         (t
          (move-beginning-of-line 1)
          (newline)
          (goto-line smishy-work-line)
-         (insert "* DO ")))
+         (insert "* NEXT ACTION ")))
   (goto-line (+ 1 smishy-work-line))
-  (if (string-match "\* DO ." mystr)
+  (if (string-match "\* NEXT ACTION ." mystr)
       (org-todo "TODO"))
   (setq mystr2 (buffer-substring (point-at-bol) (point-at-eol)))
   (goto-line (+ 2 smishy-work-line))
   ;; This bit processes the 2nd line under the work line and turns it into a
   ;; TODO which doesn't really seem to be a good thing
   ;; (if (and (string-match "\* TODO " mystr2) 
-  ;;          (string-match "\* DO ." mystr))
+  ;;          (string-match "\* NEXT ACTION ." mystr))
   ;;     (org-todo "TODO"))
   (goto-line smishy-work-line)
   (move-end-of-line 1)
@@ -146,10 +150,10 @@
   (setq org-default-priority 68)
 
 (defun smishy-set-faces ()
-  (setq org-todo-keywords '((sequence "DO" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED"))))
+  (setq org-todo-keywords '((sequence "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED"))))
   ;; Use hex values for terminal and gui color support 
   (setq org-todo-keyword-faces
-        '(("DO" . (:foreground "#000000" :background "#ffff00"))
+        '(("NEXT ACTION" . (:foreground "#000000" :background "#ffff00"))
           ("DOING" . (:foreground "#000000" :background "#cdcd00"))
           ("TODO" . (:foreground "#ffffff" :background "#cd00cd"))
           ("PROJECT" . (:foreground "#000000" :background "#5fff00"))
