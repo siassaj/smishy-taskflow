@@ -39,16 +39,6 @@
 ;;;;**************************************************************************
 ;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;; Functionality I want to add ;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Make input line have "* ADD " & refactor to store this string in a variable
-; Make working line have a "* DOING " by default
-; Fix the prepare-top to have the ability to understand this
-; Add the ability to have DOING , TODO , etc. If i add a DOING, the lost DOING
-;  Becomes TODO.
-; Make it easy to complete or defer tasks with other keystrokes, would require 
-;  multiple WM Keybinds.
-; Refactor the code to stop repeating
-;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;; Make sure to have dependencies ;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'screen)
@@ -68,7 +58,7 @@
   "This function will jump to a specified line, newline it and then put a * DO
    line in and get ready for input"
   (interactive)
-  ;  (switch-to-buffer "biglist.org")
+  ;; (switch-to-buffer "biglist.org")
   (delete-other-windows)
   (goto-line smishy-work-line)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
@@ -95,9 +85,11 @@
       (org-todo "TODO"))
   (setq mystr2 (buffer-substring (point-at-bol) (point-at-eol)))
   (goto-line (+ 2 smishy-work-line))
-  (if (and (string-match "\* TODO " mystr2) 
-           (string-match "\* DO ." mystr))
-      (org-todo "TODO"))
+  ;; This bit processes the 2nd line under the work line and turns it into a
+  ;; TODO which doesn't really seem to be a good thing
+  ;; (if (and (string-match "\* TODO " mystr2) 
+  ;;          (string-match "\* DO ." mystr))
+  ;;     (org-todo "TODO"))
   (goto-line smishy-work-line)
   (move-end-of-line 1)
   (save-buffer))
@@ -120,7 +112,7 @@
 (defun smishy-done-last ()
   "Function to close the last task put on the stack and then
    create a new one or set the second last one to DOING"
-  ;first delete the last task
+  ;; first delete the last task
   (interactive)
   (goto-line (+ smishy-work-line 1))
   (move-beginning-of-line 1)
@@ -155,7 +147,7 @@
 
 (defun smishy-set-faces ()
   (setq org-todo-keywords '((sequence "DO" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED"))))
-  ; Use hex values for terminal and gui color support 
+  ;; Use hex values for terminal and gui color support 
   (setq org-todo-keyword-faces
         '(("DO" . (:foreground "#000000" :background "#ffff00"))
           ("DOING" . (:foreground "#000000" :background "#cdcd00"))
@@ -189,8 +181,8 @@
     (lambda () (interactive) (org-agenda org-mode-map-list 14)))
   (define-key org-mode-map (kbd "C-c h")
     (lambda () (interactive) (org-agenda nil "h")))
-  ; the following keybinds are for when emacs is in an xterm, shift + direction
-  ; keys return ESC [ 1 ; 2 bla  for some reason (reason is found in ECMA-48)
+  ;; The following keybinds are for when emacs is in an xterm, shift + direction
+  ;; keys return ESC [ 1 ; 2 bla  for some reason (reason is found in ECMA-48) ;;
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 D") (kbd "<S-left>"))
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 C") (kbd "<S-right>"))
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 A") (kbd "<S-up>"))
@@ -215,17 +207,17 @@
   "This function makes the entire document read only, except for a space on
 the work line. It is problematic as I still cant apply functions properly..."
   (interactive)
-  ;find the point that indicates the end of the 1st read only region
+  ;; find the point that indicates the end of the 1st read only region
   (goto-line smishy-work-line)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
   (if (string-match "\* [A-Z]+ " mystr)
       (progn
         (setq readonly-region1-end (- (+ (point) (match-end 0)) 1)))
     (setq readonly-region1-end nil))
-  ;find the point that indicates the start of the 2nd read only region
+  ;; find the point that indicates the start of the 2nd read only region
   (goto-line (+ smishy-work-line 1))
   (setq readonly-region2-start (- (point) 1))
-  ;set read only regions
+  ;; set read only regions
   (if readonly-region1-end
       (add-text-properties (point-min) readonly-region1-end '(read-only t)))
   (add-text-properties readonly-region2-start (point-max) '(read-only t)))
