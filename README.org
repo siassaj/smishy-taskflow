@@ -18,7 +18,7 @@
                                                                           
 
 * VERSION
-  0.2
+  - v1.0
 
 * README
   Smishy taskflow is an attempt at GTD (getting things done) running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away. This is an attempt at mechanising the 'working process'. 
@@ -66,3 +66,23 @@
 
 * GIT
   https://github.com/quazimodo
+* LICENSE
+  LGPL3
+  
+  Copyright quazimodo 2013
+  
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 3 of the License, or (at your option) any later
+  version.
+  
+  This library is distributed in the hope that it will be
+  useful, but WITHOUT ANY WARRANTY; without even the implied
+  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+  PURPOSE.  See the GNU Lesser General Public License for more
+  details.
+  
+  You should have received a copy of the  GNU Lesser General
+  Public License along with this library.
+  If not, see <http://www.gnu.org/licenses/>.

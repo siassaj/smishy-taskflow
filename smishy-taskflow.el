@@ -49,6 +49,12 @@
 ;  multiple WM Keybinds.
 ; Refactor the code to stop repeating
 ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;; Make sure to have dependencies ;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'screen)
+(require 'org)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Define Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun smishy-kill-other-buffers ()
@@ -193,7 +199,7 @@
 (defun smishy-start-taskflow (file-path)
   "Start the smishy task flow"
   (interactive)
-  (load-file "screen.el")
+  (setq inhibit-splash-screen t)
   (let ((buff (find-file-noselect file-path)))
     (pop-to-buffer buff)
     (add-to-list 'org-agenda-files (buffer-file-name buff)))

@@ -1,3 +1,7 @@
+;; This file was written (I think) by Andreas Marschke, you can find it at
+;; https://github.com/andreas-marschke/emacs-config/blob/master/rc/emacs-rc-screen.el
+;; No license supplied, so copyright is his :)
+;;
 ;; With Screen between Emacs and the "real" terminal, it doesn't occur
 ;; to Emacs to translate some keybindings.  Teach it about a handful
 ;; that are important to me (because paredit uses them).  Don't bother
@@ -55,9 +59,11 @@
             (lambda ()
               (when (or (not (featurep 'multi-tty))
                         (and (featurep 'multi-tty)
-			     (tty-type)
+                             (tty-type)
                              (string-match "\\`screen" (tty-type))))
                 (let ((frame-title* (format-mode-line frame-title-format)))
                   (unless (equal frame-title frame-title*)
                     (send-string-to-terminal
                      (concat "\ek" (setq frame-title frame-title*) "\e\\"))))))))
+
+(provide 'screen)
