@@ -55,9 +55,11 @@
             (lambda ()
               (when (or (not (featurep 'multi-tty))
                         (and (featurep 'multi-tty)
-			     (tty-type)
+                             (tty-type)
                              (string-match "\\`screen" (tty-type))))
                 (let ((frame-title* (format-mode-line frame-title-format)))
                   (unless (equal frame-title frame-title*)
                     (send-string-to-terminal
                      (concat "\ek" (setq frame-title frame-title*) "\e\\"))))))))
+
+(provide 'screen)
