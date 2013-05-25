@@ -21,15 +21,13 @@
   - v1.1
 
 * README
-  Smishy taskflow is an attempt at GTD (getting things done) running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away. This is an attempt at mechanising the 'working process'. 
+  Smishy taskflow is an attempt to implement GTD (getting things done) running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
 
-  I've found it incredibly useful - Hope you do too :)
+  I've found it incredibly useful - Hope you do too :) <quazimodo>
 
 * INSTALLATION
 
-  NOTE: This is currently not a 'release' candidate. It works, but needs some more work
-
-  Installation is easy though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own emacs instance.
+  Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own emacs instance.
 
   1. Clone this repo somewhere, I personally would put it in ~/.emacs.d/vendor/smishy-taskflow
 
@@ -62,7 +60,7 @@
    C-c h is by far the most useful and shows me a 1 week calendar along with pending tasks and done tasks. I'll pick the next task that needs doing and close the emacs frame. Once it's done I'll reopen the frame, navigate to it by pressing n or p to up or down, and tab to navigate to it in my actual list. From here I C-c d to mark it as done, pick the next task, and repeat.
 
 * CONTACT
-  ssaj.work@gmail.com
+  <quazimodo> super.quazimodo@gmail.com
 
 * GIT
   https://github.com/quazimodo
