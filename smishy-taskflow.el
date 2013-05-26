@@ -148,9 +148,10 @@
                     (todo "TODO"))))))
   (setq org-lowest-priority 69)
   (setq org-default-priority 68)
+  (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil "")))
 
 (defun smishy-set-faces ()
-  (setq org-todo-keywords '((sequence "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED"))))
+  (setq org-todo-keywords '((sequence "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
   ;; Use hex values for terminal and gui color support 
   (setq org-todo-keyword-faces
         '(("NEXT ACTION" . (:foreground "#000000" :background "#ffff00"))
@@ -168,8 +169,11 @@
    '(org-level-1 ((t (:foreground "#ffffff"))))
    '(org-special-keyword ((t (:foreground "#ff00ff" :background "#00005f"))))))
 
+
 (defun smishy-set-key-bindings ()
-  "Set up the keybindings for org-mode-map keymap"
+  "Set up the keybindings for org-mode-map keymap
+   aoeu | gcrl
+    qjk | htns"
   (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
   (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
   (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
@@ -179,12 +183,9 @@
   (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
   (define-key org-mode-map (kbd "C-c a") 'org-agenda)
   (define-key org-mode-map (kbd "C-c b") 'org-iswitchb)
-  (define-key org-mode-map (kbd "C-c t") 
-    (lambda () (interactive) (org-todo-list "TODO")))
-  (define-key org-mode-map (kbd "C-c n")
-    (lambda () (interactive) (org-agenda org-mode-map-list 14)))
-  (define-key org-mode-map (kbd "C-c h")
-    (lambda () (interactive) (org-agenda nil "h")))
+  (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "TODO")))
+  (define-key org-mode-map (kbd "C-c n") (lambda () (interactive) (org-agenda-list 56)))
+  (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
   ;; The following keybinds are for when emacs is in an xterm, shift + direction
   ;; keys return ESC [ 1 ; 2 bla  for some reason (reason is found in ECMA-48) ;;
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 D") (kbd "<S-left>"))
