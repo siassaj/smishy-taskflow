@@ -7,7 +7,7 @@
 ;;;;DESCRIPTION
 ;;;;    
 ;;;;    This library is my implementation of Getting Things Done.
-;;;;    It uses org-mode, some helper functions and settings, and is
+;;;;    It uses org-mode, some helper functions and settings, and 
 ;;;;    designed to be extremely quick and out of the way. It is nicer
 ;;;;    when used with a tiling window manager.
 ;;;;    
@@ -43,6 +43,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;; Make sure to have dependencies ;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'screen)
 (require 'org)
+(require 'popup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Define Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -191,7 +192,26 @@
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 D") (kbd "<S-left>"))
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 C") (kbd "<S-right>"))
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 A") (kbd "<S-up>"))
-  (define-key org-mode-map (kbd "ESC [ 1 ; 2 B") (kbd "<S-down>")))
+  (define-key org-mode-map (kbd "ESC [ 1 ; 2 B") (kbd "<S-down>"))
+  (define-key org-agenda-mode-map (kbd "TAB") 'smishy-tab-out-of-agenda))
+
+(defun smishy-tab-out-of-agenda (&optional highlight)
+  "Used to tab out of the agenda view when the marker is not on a todo, which org-mode usually responds to by throwing an error"
+  (interactive)
+  (if (org-get-at-bol 'org-marker) ; true if org-marker
+    (org-agenda-goto highlight) ; continue as normal
+    (smishy-tab-out-of-agenda-list))) ; open list 
+
+(defun smishy-tab-out-of-agenda-list ()
+  "Usually called by smishy-tab-out-of-agenda, this function either creates a list of org files that org-agenda knows about, or tabs out to it if only 1 is known"
+  (let* ((file-path (cond ((equal 1 (length org-agenda-files))
+                           (car org-agenda-files))
+                          ((< 1 (length org-agenda-files))
+                           (popup-menu* org-agenda-files))))
+         (buffer (get-file-buffer file-path)))
+    (if buffer
+      (switch-to-buffer-other-window buffer)
+      (find-file-other-window file-path))))
 
 (defun smishy-start-taskflow (file-path)
   "Start the smishy task flow"
