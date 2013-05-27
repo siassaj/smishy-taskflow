@@ -12,14 +12,14 @@
 ;;;;    when used with a tiling window manager.
 ;;;;    
 ;;;;AUTHORS
-;;;;    <quazimodo> quazimodo
+;;;;    <quazimodo> Siavash S. Sajjadi <super.quazimodo@gmail.com>
 ;;;;MODIFICATIONS
 ;;;;    2013-05-25 <quazimodo> Add License, rename 
 ;;;;BUGS
 ;;;;LEGAL
 ;;;;    LGPL3
 ;;;;    
-;;;;    Copyright quazimodo 2011 - 2013
+;;;;    Copyright Siavash S. Sajjadi 2011 - 2013
 ;;;;    
 ;;;;    This library is free software; you can redistribute it and/or
 ;;;;    modify it under the terms of the GNU Lesser General Public
