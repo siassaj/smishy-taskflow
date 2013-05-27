@@ -56,8 +56,8 @@
               (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun smishy-reload-top ()
-  "This function will jump to a specified line, newline it and then put a * NEXT ACTION
-   line in and get ready for input"
+  "Prepare new Next Action line.
+This function will jump to line smishy-work-line, newline it and then put a * NEXT ACTION line in and get ready for input."
   (interactive)
   ;; (switch-to-buffer "biglist.org")
   (delete-other-windows)
@@ -100,32 +100,23 @@
   (save-buffer))
 
 (defun smishy-save-n-go ()
-  "Push the current task down, add a new DOING, then save the whole file. Finally, detach the screen, thus killing the xterm :D"
+  "Save new Next Action and clone frame.
+Push the current task down, add a new DOING, then save the whole file. Finally, detach the screen, thus killing the xterm."
   (interactive)
   (smishy-reload-top)
   (save-buffer)
   (shell-command "screen -D smishy-taskflow"))
 
 (defun smishy-toggle-done ()
-  "Finish task on the current line and save it at the bottom as 'DONE'"
+  "Toggle TODO/DONE on current line.
+Finish task on the current line and save it at the bottom as 'DONE'"
   (interactive)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
   (cond ((string-match "^\** TODO " mystr) (org-todo "DONE"))
         ((string-match "^\** DONE " mystr) (org-todo "TODO"))))
 
-
-(defun smishy-done-last ()
-  "Function to close the last task put on the stack and then
-   create a new one or set the second last one to DOING"
-  ;; first delete the last task
-  (interactive)
-  (goto-line (+ smishy-work-line 1))
-  (move-beginning-of-line 1)
-  (kill-whole-line)
-  (smishy-reload-top))
-
 (defun smishy-set-max-priority()
-  "Set the line to have the maximum priority"
+  "Set the current TODO to have the maximum priority"
   (let* ((marker (or (org-get-at-bol 'org-hd-marker)
                      (org-agenda-error)))
          (buffer (marker-buffer marker)))
@@ -138,7 +129,7 @@
           (org-priority 65))))))
 
 (defun smishy-set-variables ()
-  "Set important variables to make smishy taskflow work well"
+  "Set important smishy-taskflow variables."
   (setq smishy-work-line 9) ;set what line you will be entering your task
   (setq org-agenda-custom-commands
         (append org-agenda-custom-commands
@@ -152,6 +143,7 @@
   (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil "")))
 
 (defun smishy-set-faces ()
+  "Set smishy-taskflow faces."
   (setq org-todo-keywords '((sequence "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
   ;; Use hex values for terminal and gui color support 
   (setq org-todo-keyword-faces
@@ -172,13 +164,13 @@
 
 
 (defun smishy-set-key-bindings ()
-  "Set up the keybindings for org-mode-map keymap
+  "Set smishy-taskflow key-bindings.
+Sets keys for org-mode-map and org-agenda-mode-map.
    aoeu | gcrl
     qjk | htns"
   (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
   (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
   (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
-  (define-key org-mode-map (kbd "C-c l") 'smishy-done-last)
   (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
   (define-key org-mode-map (kbd "C-c C-c") 'org-capture)
   (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
@@ -196,14 +188,16 @@
   (define-key org-agenda-mode-map (kbd "TAB") 'smishy-tab-out-of-agenda))
 
 (defun smishy-tab-out-of-agenda (&optional highlight)
-  "Used to tab out of the agenda view when the marker is not on a todo, which org-mode usually responds to by throwing an error"
+  "Tab out of agenda view easily.
+Used to tab out of the agenda view when the marker is not on a todo, which org-mode usually responds to by throwing an error."
   (interactive)
   (if (org-get-at-bol 'org-marker) ; true if org-marker
     (org-agenda-goto highlight) ; continue as normal
     (smishy-tab-out-of-agenda-list))) ; open list 
 
 (defun smishy-tab-out-of-agenda-list ()
-  "Usually called by smishy-tab-out-of-agenda, this function either creates a list of org files that org-agenda knows about, or tabs out to it if only 1 is known"
+  "Create popup list to tab out of agenda view.
+Usually called by smishy-tab-out-of-agenda, this function either creates a list of org files that org-agenda knows about, or tabs out to it if only 1 is known."
   (let* ((file-path (cond ((equal 1 (length org-agenda-files))
                            (car org-agenda-files))
                           ((< 1 (length org-agenda-files))
