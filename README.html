@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>README</title>
-<!-- 2013-05-31 Fri 04:12 -->
+<!-- 2013-05-31 Fri 04:34 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 
@@ -162,9 +162,10 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#sec-4-3">4.3. Review</a>
 <ul>
-<li><a href="#sec-4-3-1">4.3.1. Daily Start</a></li>
-<li><a href="#sec-4-3-2">4.3.2. Daily Finish</a></li>
-<li><a href="#sec-4-3-3">4.3.3. Weekly</a></li>
+<li><a href="#sec-4-3-1">4.3.1. Archiving</a></li>
+<li><a href="#sec-4-3-2">4.3.2. Daily Start</a></li>
+<li><a href="#sec-4-3-3">4.3.3. Daily Finish</a></li>
+<li><a href="#sec-4-3-4">4.3.4. Weekly</a></li>
 </ul>
 </li>
 <li><a href="#sec-4-4">4.4. Keywords</a></li>
@@ -264,7 +265,7 @@ pre {
 </p>
 
 <p>
-Smishy taskflow is my attempt to implement <b>GTD (getting things done)</b> running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
+Smishy taskflow is my attempt to implement <b>GTD (getting things done)</b> running on Emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
 </p>
 
 <p>
@@ -276,7 +277,7 @@ I've found it incredibly useful - Hope you do too :)
 <h2 id="sec-3"><span class="section-number-2">3</span> INSTALLATION</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own emacs instance.
+Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own Emacs instance.
 </p>
 
 <ol class="org-ol">
@@ -306,7 +307,11 @@ The <b>FIRST STEP</b> before everything else below is to actually get into the E
 </p>
 
 <p>
-The <b>LAST STEP</b> for each of these is <code>C-c c</code> to save the list or <code>C-c s</code> to save and then hide the emacs frame.
+The <b>LAST STEP</b> for each of these is <code>C-c c</code> to save the list or <code>C-c s</code> to save and then hide the Emacs frame.
+</p>
+
+<p>
+You can also set the priority of TODO headlines with <code>SHIFT UP/DOWN_ARROW</code>, Which I use pretty extensively.
 </p>
 </div>
 <div id="outline-container-sec-4-1" class="outline-3">
@@ -415,10 +420,19 @@ Because these are not nearly as frequent as standard TODO manipulation I just ty
 <h3 id="sec-4-3"><span class="section-number-3">4.3</span> Review</h3>
 <div class="outline-text-3" id="text-4-3">
 </div><div id="outline-container-sec-4-3-1" class="outline-4">
-<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Daily Start</h4>
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Archiving</h4>
 <div class="outline-text-4" id="text-4-3-1">
+<p>
+You can archive by marking things then doing <code>B $</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3-2" class="outline-4">
+<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> Daily Start</h4>
+<div class="outline-text-4" id="text-4-3-2">
 <ol class="org-ol">
-<li><code>C-c h</code> to go to agenda view
+<li><code>C-c h</code> to go to agenda view.
 </li>
 <li><code>n</code> &amp; <code>p</code> to navigate, <code>m</code> to mark tasks you want to do
 </li>
@@ -427,21 +441,34 @@ Because these are not nearly as frequent as standard TODO manipulation I just ty
 </ol>
 </div>
 </div>
-<div id="outline-container-sec-4-3-2" class="outline-4">
-<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> Daily Finish</h4>
-<div class="outline-text-4" id="text-4-3-2">
+<div id="outline-container-sec-4-3-3" class="outline-4">
+<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> Daily Finish</h4>
+<div class="outline-text-4" id="text-4-3-3">
 <ol class="org-ol">
 <li><code>C-c h</code> to go to agenda view
 </li>
-<li><code>n</code> &amp; <code>p</code> to navigate, <code>m</code> to mark DONE tasks
+<li><code>n</code> &amp; <code>p</code> to navigate, <code>m</code> to mark DONE &amp; DELETED tasks
 </li>
 <li><code>B $</code> to archive
 </li>
 </ol>
 </div>
 </div>
-<div id="outline-container-sec-4-3-3" class="outline-4">
-<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> Weekly</h4>
+<div id="outline-container-sec-4-3-4" class="outline-4">
+<h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span> Weekly</h4>
+<div class="outline-text-4" id="text-4-3-4">
+<p>
+Cleaning up with the weekly review is not really all that automated. I just go over the todo list and manually clean things up and use <code>C-c n</code> to see what's scheduled/deadlined in the coming weeks.
+</p>
+
+<p>
+Other than that, you can jump around the agenda, mark things for archiving or archive manually from the list using <code>C-c $</code>.
+</p>
+
+<p>
+Just try to keep the list clean because it can grow pretty unwieldy.
+</p>
+</div>
 </div>
 </div>
 
@@ -479,7 +506,7 @@ You can use <code>SHIFT LEFT/RIGHT_ARROW</code> to change states. DONE/TODO can 
 <h3 id="sec-4-5"><span class="section-number-3">4.5</span> Keybinds</h3>
 <div class="outline-text-3" id="text-4-5">
 <dl class="org-dl">
-<dt> C-c C-c </dt><dd>Capture TODO
+<dt> C-c C-c </dt><dd>Insert TODO Under Headline
 </dd>
 <dt> C-c C-d </dt><dd>Add/Modify Deadline
 </dd>
@@ -490,9 +517,17 @@ You can use <code>SHIFT LEFT/RIGHT_ARROW</code> to change states. DONE/TODO can 
 <dt> C-c C-l </dt><dd>Store Link
 </dd>
 
+<dt> C-c p </dt><dd>Create Project
+</dd>
 <dt> C-c c </dt><dd>Reset Work Line
 </dd>
+<dt> C-c r </dt><dd>Jump To Clocked In Task
+</dd>
 <dt> C-c a </dt><dd>Show Agenda Dispatcher
+</dd>
+<dt> C-c o </dt><dd>Clock Out Headline
+</dd>
+<dt> C-c i </dt><dd>Clock In Headline
 </dd>
 <dt> C-c d </dt><dd>Toggle DONE/TODO State
 </dd>
@@ -505,6 +540,8 @@ You can use <code>SHIFT LEFT/RIGHT_ARROW</code> to change states. DONE/TODO can 
 <dt> C-c s </dt><dd>Save &amp; Detach Screen
 </dd>
 <dt> C-c b </dt><dd>Switch Org Buffer
+</dd>
+<dt> C-c $ </dt><dd>Archive TODO header &amp; subtree at point
 </dd>
 </dl>
 </div>
@@ -523,7 +560,6 @@ You can use <code>SHIFT LEFT/RIGHT_ARROW</code> to change states. DONE/TODO can 
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-5" class="outline-2">
 <h2 id="sec-5"><span class="section-number-2">5</span> GIT</h2>
 <div class="outline-text-2" id="text-5">
@@ -578,7 +614,7 @@ super.quazimodo@gmail.com
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Siavash S. Sajjadi</p>
-<p class="date">Created: 2013-05-31 Fri 04:12</p>
+<p class="date">Created: 2013-05-31 Fri 04:34</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.2.1 (<a href="http://orgmode.org">Org</a> mode 8.0.3)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

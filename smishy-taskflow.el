@@ -136,7 +136,7 @@ Finish task on the current line and save it at the bottom as 'DONE'"
                 '(("h" "2 week agenda, DONE and TODOs"
                    ((agenda "" ((org-agenda-start-on-weekday nil)))
                     (todo "DONE")
-                    (todo "DOING")
+                    (todo "DELETED")
                     (todo "TODO"))))))
   (setq org-lowest-priority 69)
   (setq org-default-priority 68)
@@ -169,7 +169,7 @@ Sets keys for org-mode-map and org-agenda-mode-map.
    ',.p y|f gcrl
    aoeu i|d htns
     qjk x|b mwvz "
-  (define-key org-mode-map (kbd "C-c C-c") 'smishy-inject-todo)
+  (define-key org-mode-map (kbd "C-c C-c") 'smishy-insert-todo)
   (define-key org-mode-map (kbd "C-c C-d") 'org-deadline)
   (define-key org-mode-map (kbd "C-c C-h") 'org-schedule)
   (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
@@ -221,7 +221,7 @@ Usually called by smishy-tab-out-of-agenda, this function either creates a list 
 Does stuff"
   (interactive))
 
-(defun smishy-inject-todo ()
+(defun smishy-insert-todo ()
   "Insert TODO under current header.
 Does stuff"
   (interactive))

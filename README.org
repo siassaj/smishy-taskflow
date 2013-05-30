@@ -88,12 +88,12 @@ pre {
 * README
   **Disclaimer** This is merely how I use org-mode, with some helper functions and keybinds.
 
-  Smishy taskflow is my attempt to implement *GTD (getting things done)* running on emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
+  Smishy taskflow is my attempt to implement *GTD (getting things done)* running on Emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
 
   I've found it incredibly useful - Hope you do too :)
 
 * INSTALLATION
-  Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own emacs instance.
+  Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own Emacs instance.
 
   1. Clone this repo somewhere, I just put it in ~/.emacs.d/vendor/smishy-taskflow
 
@@ -104,12 +104,13 @@ pre {
   4. Key bind smishy-taskflow-open.sh to some key combo in your window manager (I use the M-~)
 
 * USAGE
-
   There are lots of ways to work with org-mode, this is pretty much what I do. Honestly, while these useful functions and bindings exist, I often find myself quickly typing everything in directly, then =C-c c= 'ing to save it.
 
   The *FIRST STEP* before everything else below is to actually get into the Emacs frame.
 
-  The *LAST STEP* for each of these is =C-c c= to save the list or =C-c s= to save and then hide the emacs frame.
+  The *LAST STEP* for each of these is =C-c c= to save the list or =C-c s= to save and then hide the Emacs frame.
+  
+  You can also set the priority of TODO headlines with =SHIFT UP/DOWN_ARROW=, Which I use pretty extensively.
 ** Working
 *** Start/Continue A Task
     1. =C-c h= to get into combo agenda view
@@ -150,17 +151,24 @@ pre {
     Because these are not nearly as frequent as standard TODO manipulation I just type them in by hand :D
 
 ** Review
+*** Archiving
+    You can archive by marking things then doing =B $=.
 *** Daily Start
-    1. =C-c h= to go to agenda view
+    1. =C-c h= to go to agenda view.
     2. =n= & =p= to navigate, =m= to mark tasks you want to do
     3. =B s= to schedule tasks for today
 
 *** Daily Finish
     1. =C-c h= to go to agenda view
-    2. =n= & =p= to navigate, =m= to mark DONE tasks
+    2. =n= & =p= to navigate, =m= to mark DONE & DELETED tasks
     3. =B $= to archive
 
 *** Weekly
+    Cleaning up with the weekly review is not really all that automated. I just go over the todo list and manually clean things up and use =C-c n= to see what's scheduled/deadlined in the coming weeks.
+
+    Other than that, you can jump around the agenda, mark things for archiving or archive manually from the list using =C-c $=.
+    
+    Just try to keep the list clean because it can grow pretty unwieldy.
 ** Keywords
    You can use =SHIFT LEFT/RIGHT_ARROW= to change states. DONE/TODO can be toggled with =C-c d=.
    - NEXT ACTION :: Just a place holder in the org file's work line, not really used anywhere else.
@@ -175,25 +183,29 @@ pre {
    - NOTE :: Important notes that you wont want to lose.
 
 ** Keybinds
-   - C-c C-c :: Capture TODO
+   - C-c C-c :: Insert TODO Under Headline
    - C-c C-d :: Add/Modify Deadline
    - C-c C-h :: Add/Modify Schedule
    - C-c C-t :: Add/Modify Tags
    - C-c C-l :: Store Link
 
+   - C-c p :: Create Project
    - C-c c :: Reset Work Line
+   - C-c r :: Jump To Clocked In Task
    - C-c a :: Show Agenda Dispatcher
+   - C-c o :: Clock Out Headline
+   - C-c i :: Clock In Headline
    - C-c d :: Toggle DONE/TODO State
    - C-c h :: Show Combo Agenda View
    - C-c t :: Show TODO Agenda List
    - C-c n :: Show Agenda 2 Month Calendar
    - C-c s :: Save & Detach Screen
    - C-c b :: Switch Org Buffer
+   - C-c $ :: Archive TODO header & subtree at point
    
 ** Conditional Keybinds
 *** Agenda View
    - TAB :: Switch out to any know Org Buffers if point is not on a TODO item line
-
 
 * GIT
   https://github.com/quazimodo/smishy-taskflow
