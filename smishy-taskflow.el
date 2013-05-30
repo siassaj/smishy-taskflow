@@ -166,19 +166,28 @@ Finish task on the current line and save it at the bottom as 'DONE'"
 (defun smishy-set-key-bindings ()
   "Set smishy-taskflow key-bindings.
 Sets keys for org-mode-map and org-agenda-mode-map.
-   aoeu | gcrl
-    qjk | htns"
-  (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
-  (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
-  (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
-  (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
-  (define-key org-mode-map (kbd "C-c C-c") 'org-capture)
+   ',.p y|f gcrl
+   aoeu i|d htns
+    qjk x|b mwvz "
+  (define-key org-mode-map (kbd "C-c C-c") 'smishy-inject-todo)
+  (define-key org-mode-map (kbd "C-c C-d") 'org-deadline)
+  (define-key org-mode-map (kbd "C-c C-h") 'org-schedule)
   (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
+  (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
+
+  (define-key org-mode-map (kbd "C-c p") 'smishy-create-project)
+  (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
+  (define-key org-mode-map (kbd "C-c r") 'org-clock-goto)
   (define-key org-mode-map (kbd "C-c a") 'org-agenda)
-  (define-key org-mode-map (kbd "C-c b") 'org-iswitchb)
+  (define-key org-mode-map (kbd "C-c o") 'org-clock-out)
+  (define-key org-mode-map (kbd "C-c i") 'org-clock-in)
+  (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
+  (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
   (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "TODO")))
   (define-key org-mode-map (kbd "C-c n") (lambda () (interactive) (org-agenda-list 56)))
-  (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
+  (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
+  (define-key org-mode-map (kbd "C-c b") 'org-iswitchb)
+
   ;; The following keybinds are for when emacs is in an xterm, shift + direction
   ;; keys return ESC [ 1 ; 2 bla  for some reason (reason is found in ECMA-48) ;;
   (define-key org-mode-map (kbd "ESC [ 1 ; 2 D") (kbd "<S-left>"))
@@ -193,9 +202,9 @@ Used to tab out of the agenda view when the marker is not on a todo, which org-m
   (interactive)
   (if (org-get-at-bol 'org-marker) ; true if org-marker
     (org-agenda-goto highlight) ; continue as normal
-    (smishy-tab-out-of-agenda-list))) ; open list 
+    (smishy--tab-out-of-agenda-list))) ; open list 
 
-(defun smishy-tab-out-of-agenda-list ()
+(defun smishy--tab-out-of-agenda-list ()
   "Create popup list to tab out of agenda view.
 Usually called by smishy-tab-out-of-agenda, this function either creates a list of org files that org-agenda knows about, or tabs out to it if only 1 is known."
   (let* ((file-path (cond ((equal 1 (length org-agenda-files))
@@ -206,6 +215,16 @@ Usually called by smishy-tab-out-of-agenda, this function either creates a list 
     (if buffer
       (switch-to-buffer-other-window buffer)
       (find-file-other-window file-path))))
+
+(defun smishy-create-project ()
+  "Create an Org-Mode project.
+Does stuff"
+  (interactive))
+
+(defun smishy-inject-todo ()
+  "Insert TODO under current header.
+Does stuff"
+  (interactive))
 
 (defun smishy-start-taskflow (file-path)
   "Start the smishy task flow"
