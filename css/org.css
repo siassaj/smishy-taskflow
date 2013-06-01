@@ -9,7 +9,7 @@ body {
 }
 
 code {
-  background: #ddd;
+  background: #eee;
   padding: 0 5px;
   border-radius: 3px;
 }
@@ -18,17 +18,24 @@ div[class^='outline-text-'] {
   padding: 0 30px;
 }
 
+#content > div[id^='outline-container-sec-'] {
+  margin: 20px 0;
+  border-radius: 10px;
+  padding: 10px;
+  background: #dadada;
+}
+
 ul {
   list-style:disc;
 }
-
-h1 {
-  margin-top: 2em;
-}
-
-h2, h3, h4, h5 {
+h1, h2, h3, h4, h5 {
   margin-top: 2em;
   border-bottom: 1px solid #333;
+}
+
+h3, h4, h5 {
+  display: inline-block;
+  padding-right: 20px;
 }
 
 h3 {
