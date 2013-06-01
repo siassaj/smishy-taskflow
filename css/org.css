@@ -45,7 +45,12 @@ a {
 
 a:link {color:#AA00AA;}      /* unvisited link */
 a:visited {color:#AA00AA;}  /* visited link */
-a:hover {color:#770077;}  /* mouse over link */
+a:hover {  /* mouse over link */
+  color: #eeddee;
+  padding: 0 5px;
+  background: #330033;
+  border-radius: 3px;
+}
 a:active {color:#AA55AA;}  /* selected link */
 
 pre {

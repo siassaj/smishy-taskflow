@@ -1,3 +1,4 @@
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/org.css" />
 #                                            __                  
 #                                __         /\ \                 
 #               ____    ___ ___ /\_\    ____\ \ \___   __  __    
@@ -14,10 +15,6 @@
 #       \ \ \_/\ \L\.\_/\__, `\\ \ \\`\\ \ \_/  \_\ \_/\ \L\ \ \ \_/ \_/ \
 #        \ \__\ \__/.\_\/\____/ \ \_\ \_\ \_\   /\___ \ \____/\ \___x___/'
 #         \/__/\/__/\/_/\/___/   \/_/\/_/\/_/   \/____/\/___/  \/__//__/  
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/org.css" />
-
-
 * VERSION
   - v1.1
 
@@ -27,13 +24,12 @@
   Smishy taskflow is my attempt to implement *GTD (getting things done)* running on Emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
 
   I've found it incredibly useful - Hope you do too :)
-
 * INSTALLATION
   Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own Emacs instance.
 
   1. Clone this repo somewhere, I just put it in ~/.emacs.d/vendor/smishy-taskflow
 
-  2. Create your config file. I saved it as ~/.emacs.d/smishy-taskflow-init.el. You can use sample-init.el as an example for how to create the initialiser. Set the argument to smishy-start-taskflow to the path of your todo list (it shoud be a .org file, you can use example-list.org to get an idea).
+  2. Create your config file. I saved it as ~/.emacs.d/smishy-taskflow-init.el. You can use sample-init.el as an example for how to create the initialiser. Set the argument to smishy-start-taskflow to the path of your todo list (it should be a .org file, you can use example-list.org to get an idea).
 
   3. Edit smishy-taskflow-open.sh and set the variable config_location to the full path of the new initialiser file. I use ~/.emacs.d/smishy-taskflow-init.el
 
@@ -67,14 +63,14 @@
 *** Quickly Add A TODO To List
     1. =C-c c= to get to the Next Action line
     2. Type in the actionable step of the task
-    3. (Optional) =C-c t= to tag it
+    3. (Optional) =C-c C-t= to tag it
     4. (Optional) =C-c C-h= or =C-c C-d= to add schedule/deadline
 
 *** Create A Project
     1. =C-c p= to create a Project
-    2. (Optional) =C-c t= to add tag(s)
+    2. (Optional) =C-c C-t= to add tag(s)
     3. =C-c C-c= to create a TODO in the project
-    4. (Optional) =C-c t= to tag it
+    4. (Optional) =C-c C-t= to add tag(s)
     5. (Optional) =C-c C-h= or =C-c C-d= to add schedule/deadline
 
 *** Add A TODO To A Project
@@ -119,29 +115,29 @@
    - NOTE :: Important notes that you wont want to lose.
 
 ** Keybinds
-   - C-c C-c :: Insert TODO Under Headline
-   - C-c C-d :: Add/Modify Deadline
-   - C-c C-h :: Add/Modify Schedule
-   - C-c C-t :: Add/Modify Tags
-   - C-c C-l :: Store Link
+   - =C-c C-c= :: Insert TODO Under Headline
+   - =C-c C-d= :: Add/Modify Deadline
+   - =C-c C-h= :: Add/Modify Schedule
+   - =C-c C-t= :: Add/Modify Tags
+   - =C-c C-l= :: Store Link
 
-   - C-c p :: Create Project
-   - C-c c :: Reset Work Line
-   - C-c r :: Jump To Clocked In Task
-   - C-c a :: Show Agenda Dispatcher
-   - C-c o :: Clock Out Headline
-   - C-c i :: Clock In Headline
-   - C-c d :: Toggle DONE/TODO State
-   - C-c h :: Show Combo Agenda View
-   - C-c t :: Show TODO Agenda List
-   - C-c n :: Show Agenda 2 Month Calendar
-   - C-c s :: Save & Detach Screen
-   - C-c b :: Switch Org Buffer
-   - C-c $ :: Archive TODO header & subtree at point
+   - =C-c p= :: Create Project
+   - =C-c c= :: Reset Work Line
+   - =C-c r= :: Jump To Clocked In Task
+   - =C-c a= :: Show Agenda Dispatcher
+   - =C-c o= :: Clock Out Headline
+   - =C-c i= :: Clock In Headline
+   - =C-c d= :: Toggle DONE/TODO State
+   - =C-c h= :: Show Combo Agenda View
+   - =C-c t= :: Show TODO Agenda List
+   - =C-c n= :: Show Agenda 2 Month Calendar
+   - =C-c s= :: Save & Detach Screen
+   - =C-c b= :: Switch Org Buffer
+   - =C-c $= :: Archive TODO header & subtree at point
    
 ** Conditional Keybinds
 *** Agenda View
-   - TAB :: Switch out to any know Org Buffers if point is not on a TODO item line
+   - =TAB= :: Switch out to any know Org Buffers if point is not on a TODO item line
 
 * GIT
   https://github.com/quazimodo/smishy-taskflow
