@@ -144,7 +144,7 @@ Finish task on the current line and save it at the bottom as 'DONE'"
 
 (defun smishy-set-faces ()
   "Set smishy-taskflow faces."
-  (setq org-todo-keywords '((sequence "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
+  (setq org-todo-keywords '((type "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
   ;; Use hex values for terminal and gui color support 
   (setq org-todo-keyword-faces
         '(("NEXT ACTION" . (:foreground "#000000" :background "#ffff00"))
