@@ -16,7 +16,7 @@
 #        \ \__\ \__/.\_\/\____/ \ \_\ \_\ \_\   /\___ \ \____/\ \___x___/'
 #         \/__/\/__/\/_/\/___/   \/_/\/_/\/_/   \/____/\/___/  \/__//__/  
 * VERSION
-  - v1.1
+  Version 1.2
 
 * README
   **Disclaimer** This is merely how I use org-mode, with some helper functions and keybinds.
