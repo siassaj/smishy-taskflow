@@ -140,26 +140,46 @@ Finish task on the current line and save it at the bottom as 'DONE'"
                     (todo "TODO"))))))
   (setq org-lowest-priority 69)
   (setq org-default-priority 68)
-  (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil "")))
+  (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil ""))
+  (setq org-startup-indented t)
+  (setq org-startup-folded 'content))
+
+;; #458b00
+;; #66cd00
+;; #76ee00
+;; #7fff00
+;; #008b00
+;; #00cd00
+;; #00ee00
+;; #00ff00
+;; #008b45
+;; #00cd66
+;; #00ee76
+;; #00ff7f
 
 (defun smishy-set-faces ()
   "Set smishy-taskflow faces."
   (setq org-todo-keywords '((type "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
   ;; Use hex values for terminal and gui color support 
   (setq org-todo-keyword-faces
-        '(("NEXT ACTION" . (:foreground "#000000" :background "#ffff00"))
-          ("DOING" . (:foreground "#000000" :background "#cdcd00"))
-          ("TODO" . (:foreground "#ffffff" :background "#cd00cd"))
-          ("PROJECT" . (:foreground "#000000" :background "#5fff00"))
-          ("DEFERRED" . (:foreground "#000000" :background "#af5f00"))
-          ("DELEGATED" . (:foreground "#000000" :background "#5fffd7"))
-          ("REF" . (:foreground "#000000" :background "#bebebe"))
-          ("NOTE" . (:foregroud "#cd0000" :background "#af005f"))
-          ("DONE" . (:foreground "#5f0000" :background "#ffffff"))
+        '(("NEXT ACTION" . (:foreground "#87d7d7" :background "#005c5c"))
+          ("DOING" . (:foreground "#5c5c00" :background "#d7ff5f"))
+          ("TODO" . (:foreground "#eeeeee" :background "#9a32cd"))
+          ("PROJECT" . (:foreground "#005c00" :background "#5fff5f"))
+          ("DEFERRED" . (:foreground "#444444" :background "#d7875f"))
+          ("DELEGATED" . (:foreground "#005c5c" :background "#87d7d7"))
+          ("REF" . (:foreground "#333333" :background "#bebebe"))
+          ("NOTE" . (:foregroud "#870000" :background "#af005f"))
+          ("DONE" . (:foreground "#5f0000" :background "#eeeeee"))
           ("DELETED" . (:foreground "#ff0000" :background "#870000"))))
   (custom-set-faces
+   
+   '(default ((t (:background "#242424"))))
    '(org-tag ((t (:foreground "#000000" :background "#5fff00"))))
-   '(org-level-1 ((t (:foreground "#ffffff"))))
+   '(org-level-1 ((t (:foreground "#d7ffff"))))
+   '(org-level-2 ((t (:foreground "#d7ffd7"))))
+   '(org-level-3 ((t (:foreground "#d7ffaf"))))
+   '(org-level-4 ((t (:foreground "#d7ff87"))))
    '(org-special-keyword ((t (:foreground "#ff00ff" :background "#00005f"))))))
 
 
