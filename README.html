@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>README</title>
+<!-- 2013-06-01 Sat 23:14 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="css/org.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012  Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">README</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. VERSION</a></li>
+<li><a href="#sec-2">2. README</a></li>
+<li><a href="#sec-3">3. INSTALLATION</a></li>
+<li><a href="#sec-4">4. USAGE</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Working</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1. Start/Continue A Task</a></li>
+<li><a href="#sec-4-1-2">4.1.2. Stop/Pause A Clocked In Task</a></li>
+<li><a href="#sec-4-1-3">4.1.3. Finish A Task</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-2">4.2. Capturing Data</a>
+<ul>
+<li><a href="#sec-4-2-1">4.2.1. Quickly Add A TODO To List</a></li>
+<li><a href="#sec-4-2-2">4.2.2. Create A Project</a></li>
+<li><a href="#sec-4-2-3">4.2.3. Add A TODO To A Project</a></li>
+<li><a href="#sec-4-2-4">4.2.4. References, Delegated Tasks, Deferred Tasks and Notes</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-3">4.3. Review</a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1. Archiving</a></li>
+<li><a href="#sec-4-3-2">4.3.2. Daily Start</a></li>
+<li><a href="#sec-4-3-3">4.3.3. Daily Finish</a></li>
+<li><a href="#sec-4-3-4">4.3.4. Weekly</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-4">4.4. Keywords</a></li>
+<li><a href="#sec-4-5">4.5. Keybinds</a></li>
+<li><a href="#sec-4-6">4.6. Conditional Keybinds</a>
+<ul>
+<li><a href="#sec-4-6-1">4.6.1. Agenda View</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">5. GIT</a></li>
+<li><a href="#sec-6">6. LICENSE</a></li>
+<li><a href="#sec-7">7. CONTACT</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> VERSION</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Version 1.2
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> README</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<b><b>Disclaimer</b></b> This is merely how I use org-mode, with some helper functions and keybinds.
+</p>
+
+<p>
+Smishy taskflow is my attempt to implement <b>GTD (getting things done)</b> running on Emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
+</p>
+
+<p>
+I've found it incredibly useful - Hope you do too :)
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> INSTALLATION</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Installation is easy, though you'll have to rely on your window manager to bind keys to open the taskflow frame. This is how I set it up to use its own Emacs instance.
+</p>
+
+<ol class="org-ol">
+<li>Clone this repo somewhere, I just put it in ~/.emacs.d/vendor/smishy-taskflow
+</li>
+
+<li>Create your config file. I saved it as ~/.emacs.d/smishy-taskflow-init.el. You can use sample-init.el as an example for how to create the initialiser. Set the argument to smishy-start-taskflow to the path of your todo list (it should be a .org file, you can use example-list.org to get an idea).
+</li>
+
+<li>Edit smishy-taskflow-open.sh and set the variable config<sub>location</sub> to the full path of the new initialiser file. I use ~/.emacs.d/smishy-taskflow-init.el
+</li>
+
+<li>Key bind smishy-taskflow-open.sh to some key combo in your window manager (I use the M-~)
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> USAGE</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+There are lots of ways to work with org-mode, this is pretty much what I do. Honestly, while these useful functions and bindings exist, I often find myself quickly typing everything in directly, then <code>C-c c</code> 'ing to save it.
+</p>
+
+<p>
+The <b>FIRST STEP</b> before everything else below is to actually get into the Emacs frame.
+</p>
+
+<p>
+The <b>LAST STEP</b> for each of these is <code>C-c c</code> to save the list or <code>C-c s</code> to save and then hide the Emacs frame.
+</p>
+
+<p>
+You can also set the priority of TODO headlines with <code>SHIFT UP/DOWN_ARROW</code>, Which I use pretty extensively.
+</p>
+</div>
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Working</h3>
+<div class="outline-text-3" id="text-4-1">
+</div><div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> Start/Continue A Task</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<ol class="org-ol">
+<li><code>C-c h</code> to get into combo agenda view
+</li>
+<li><code>n</code> or <code>p</code> to select the desired task from the calendar/todo list
+</li>
+<li>(Optional) Clock in with <code>I</code>
+</li>
+<li><code>TAB</code> on task to see if there are any notes associated with it or the project
+</li>
+<li>(Optional) You can also clock in here with <code>C-c i</code>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> Stop/Pause A Clocked In Task</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<ol class="org-ol">
+<li><code>C-c r</code> to jump to the currently clocked in task
+</li>
+<li><code>C-c o</code> to stop the clock, to be restarted later
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-1-3" class="outline-4">
+<h4 id="sec-4-1-3"><span class="section-number-4">4.1.3</span> Finish A Task</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<ol class="org-ol">
+<li>Locate the task using the list, <code>C-c h</code> or <code>C-c r</code>, you'll have to <code>TAB</code> on the TODO if you use <code>C-c h</code>
+</li>
+<li><code>C-c d</code> to set the task to done
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Capturing Data</h3>
+<div class="outline-text-3" id="text-4-2">
+</div><div id="outline-container-sec-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> Quickly Add A TODO To List</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<ol class="org-ol">
+<li><code>C-c c</code> to get to the Next Action line
+</li>
+<li>Type in the actionable step of the task
+</li>
+<li>(Optional) <code>C-c C-t</code> to tag it
+</li>
+<li>(Optional) <code>C-c C-h</code> or <code>C-c C-d</code> to add schedule/deadline
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-2-2" class="outline-4">
+<h4 id="sec-4-2-2"><span class="section-number-4">4.2.2</span> Create A Project</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<ol class="org-ol">
+<li><code>C-c p</code> to create a Project
+</li>
+<li>(Optional) <code>C-c C-t</code> to add tag(s)
+</li>
+<li><code>C-c C-c</code> to create a TODO in the project
+</li>
+<li>(Optional) <code>C-c C-t</code> to add tag(s)
+</li>
+<li>(Optional) <code>C-c C-h</code> or <code>C-c C-d</code> to add schedule/deadline
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-2-3" class="outline-4">
+<h4 id="sec-4-2-3"><span class="section-number-4">4.2.3</span> Add A TODO To A Project</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<ol class="org-ol">
+<li>Navigate to the project headline
+</li>
+<li><code>C-c C-c</code> to create a TODO in the project
+</li>
+<li>(Optional) <code>C-c t</code> to tag it
+</li>
+<li>(Optional) <code>C-c C-h</code> or <code>C-c C-d</code> to add schedule/deadline
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-2-4" class="outline-4">
+<h4 id="sec-4-2-4"><span class="section-number-4">4.2.4</span> References, Delegated Tasks, Deferred Tasks and Notes</h4>
+<div class="outline-text-4" id="text-4-2-4">
+<p>
+Because these are not nearly as frequent as standard TODO manipulation I just type them in by hand :D
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Review</h3>
+<div class="outline-text-3" id="text-4-3">
+</div><div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Archiving</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+You can archive by marking things then doing <code>B $</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3-2" class="outline-4">
+<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> Daily Start</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<ol class="org-ol">
+<li><code>C-c h</code> to go to agenda view.
+</li>
+<li><code>n</code> &amp; <code>p</code> to navigate, <code>m</code> to mark tasks you want to do
+</li>
+<li><code>B s</code> to schedule tasks for today
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-3-3" class="outline-4">
+<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> Daily Finish</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<ol class="org-ol">
+<li><code>C-c h</code> to go to agenda view
+</li>
+<li><code>n</code> &amp; <code>p</code> to navigate, <code>m</code> to mark DONE &amp; DELETED tasks
+</li>
+<li><code>B $</code> to archive
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-4-3-4" class="outline-4">
+<h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span> Weekly</h4>
+<div class="outline-text-4" id="text-4-3-4">
+<p>
+Cleaning up with the weekly review is not really all that automated. I just go over the todo list and manually clean things up and use <code>C-c n</code> to see what's scheduled/deadlined in the coming weeks.
+</p>
+
+<p>
+Other than that, you can jump around the agenda, mark things for archiving or archive manually from the list using <code>C-c $</code>.
+</p>
+
+<p>
+Just try to keep the list clean because it can grow pretty unwieldy.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Keywords</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+You can use <code>SHIFT LEFT/RIGHT_ARROW</code> to change states. DONE/TODO can be toggled with <code>C-c d</code>.
+</p>
+<dl class="org-dl">
+<dt> NEXT ACTION </dt><dd>Just a place holder in the org file's work line, not really used anywhere else.
+</dd>
+<dt> TODO </dt><dd>The most frequent keyword, a standard TODO (actionable step).
+</dd>
+<dt> DOING </dt><dd>You can use this, I rarely do since I use the clock now.
+</dd>
+<dt> PROJECT </dt><dd>Self explanatory, headline to organise projects (anything needing more than 1 actionable step).
+</dd>
+<dt> DONE </dt><dd>Mark stuff you finish as DONE, it gives you excellent feedback and motivation as you see the stack of DONE items grow each day.
+</dd>
+<dt> DELETED </dt><dd>TODO's that you won't do should be deleted by setting this state, then they will be archived during review.
+</dd>
+<dt> DEFERRED </dt><dd>Mark anything you are delaying as DEFERRED.
+</dd>
+<dt> DELEGATED </dt><dd>Mark anything someone else is doing as DELEGATED.
+</dd>
+<dt> REF </dt><dd>Reference material such as links to files, locations of things, etc..
+</dd>
+<dt> NOTE </dt><dd>Important notes that you wont want to lose.
+</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Keybinds</h3>
+<div class="outline-text-3" id="text-4-5">
+<dl class="org-dl">
+<dt> <code>C-c C-c</code> </dt><dd>Insert TODO Under Headline
+</dd>
+<dt> <code>C-c C-d</code> </dt><dd>Add/Modify Deadline
+</dd>
+<dt> <code>C-c C-h</code> </dt><dd>Add/Modify Schedule
+</dd>
+<dt> <code>C-c C-t</code> </dt><dd>Add/Modify Tags
+</dd>
+<dt> <code>C-c C-l</code> </dt><dd>Store Link
+</dd>
+
+<dt> <code>C-c p</code> </dt><dd>Create Project
+</dd>
+<dt> <code>C-c c</code> </dt><dd>Reset Work Line
+</dd>
+<dt> <code>C-c r</code> </dt><dd>Jump To Clocked In Task
+</dd>
+<dt> <code>C-c a</code> </dt><dd>Show Agenda Dispatcher
+</dd>
+<dt> <code>C-c o</code> </dt><dd>Clock Out Headline
+</dd>
+<dt> <code>C-c i</code> </dt><dd>Clock In Headline
+</dd>
+<dt> <code>C-c d</code> </dt><dd>Toggle DONE/TODO State
+</dd>
+<dt> <code>C-c h</code> </dt><dd>Show Combo Agenda View
+</dd>
+<dt> <code>C-c t</code> </dt><dd>Show TODO Agenda List
+</dd>
+<dt> <code>C-c n</code> </dt><dd>Show Agenda 2 Month Calendar
+</dd>
+<dt> <code>C-c s</code> </dt><dd>Save &amp; Detach Screen
+</dd>
+<dt> <code>C-c b</code> </dt><dd>Switch Org Buffer
+</dd>
+<dt> <code>C-c $</code> </dt><dd>Archive TODO header &amp; subtree at point
+</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Conditional Keybinds</h3>
+<div class="outline-text-3" id="text-4-6">
+</div><div id="outline-container-sec-4-6-1" class="outline-4">
+<h4 id="sec-4-6-1"><span class="section-number-4">4.6.1</span> Agenda View</h4>
+<div class="outline-text-4" id="text-4-6-1">
+<dl class="org-dl">
+<dt> <code>TAB</code> </dt><dd>Switch out to any know Org Buffers if point is not on a TODO item line
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> GIT</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<a href="https://github.com/quazimodo/smishy-taskflow">https://github.com/quazimodo/smishy-taskflow</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> LICENSE</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+LGPL3
+</p>
+
+<p>
+Copyright Siavash S.Sajjadi 2013
+</p>
+
+<p>
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3 of the License, or (at your option) any later
+version.
+</p>
+
+<p>
+This library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the GNU Lesser General Public License for more
+details.
+</p>
+
+<p>
+You should have received a copy of the  GNU Lesser General
+Public License along with this library.
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> CONTACT</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+super.quazimodo@gmail.com
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Siavash S. Sajjadi</p>
+<p class="date">Created: 2013-06-01 Sat 23:14</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.0.3)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
