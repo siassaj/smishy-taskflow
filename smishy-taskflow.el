@@ -175,6 +175,7 @@ Sets keys for org-mode-map and org-agenda-mode-map.
   (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
   (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
 
+  (define-key org-mode-map (kbd "C-c e") 'smishy-reload-tasks)
   (define-key org-mode-map (kbd "C-c p") 'smishy-create-project)
   (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
   (define-key org-mode-map (kbd "C-c r") 'org-clock-goto)
@@ -218,13 +219,21 @@ Usually called by smishy-tab-out-of-agenda, this function either creates a list 
 
 (defun smishy-create-project ()
   "Create an Org-Mode project.
-Does stuff"
-  (interactive))
+Creates an Org-Mode project, then allows you to insert a TODO"
+  (interactive)
+  (if (equal (line-number-at-pos) smishy-work-line)
+    (goto-line (+ smishy-work-line 1)))
+  (org-insert-todo-heading nil)
+  (org-todo "PROJECT"))
 
 (defun smishy-insert-todo ()
   "Insert TODO under current header.
-Does stuff"
-  (interactive))
+Creates a TODO nested under the current header at the current line"
+  (interactive)
+  (move-end-of-line nil)
+  (newline)
+  (org-insert-todo-heading nil)
+  (org-todo "TODO"))
 
 (defun smishy-start-taskflow (file-path)
   "Start the smishy task flow"
@@ -263,7 +272,7 @@ the work line. It is problematic as I still cant apply functions properly..."
 (defun smishy-reload-tasks ()
   "Function to reload .smishy-taskflow, used during devel"
   (interactive)
-  (load-file "~/Code/smishy-taskflow/.smishy-taskflow"))
+  (load-file "~/Code/smishy-taskflow/smishy-taskflow.el"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Finished ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
