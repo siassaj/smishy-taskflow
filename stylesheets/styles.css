@@ -14,6 +14,11 @@ code {
   border-radius: 3px;
 }
 
+div.github-links {
+  width: 480px;
+  float: left;
+}
+
 div[class^='outline-text-'] {
   padding: 0 30px;
 }
@@ -44,6 +49,11 @@ h3 {
 
 h4 {
   padding-left: 30px;
+}
+
+h1.title {
+  border: none;
+  font-size: 2.5em;
 }
 
 a {
