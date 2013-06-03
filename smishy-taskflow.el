@@ -131,6 +131,7 @@ Finish task on the current line and save it at the bottom as 'DONE'"
 (defun smishy-set-variables ()
   "Set important smishy-taskflow variables."
   (setq smishy-work-line 9) ;set what line you will be entering your task
+  (setq org-agenda-start-with-clockreport-mode t)
   (setq org-agenda-custom-commands
         (append org-agenda-custom-commands
                 '(("h" "2 week agenda, DONE and TODOs"
