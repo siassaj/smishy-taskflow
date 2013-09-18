@@ -5,34 +5,34 @@
 ;;;;SYSTEM:             emacs
 ;;;;USER-INTERFACE:     emacs
 ;;;;DESCRIPTION
-;;;;    
+;;;;
 ;;;;    This library is my implementation of Getting Things Done.
-;;;;    It uses org-mode, some helper functions and settings, and 
+;;;;    It uses org-mode, some helper functions and settings, and
 ;;;;    designed to be extremely quick and out of the way. It is nicer
 ;;;;    when used with a tiling window manager.
-;;;;    
+;;;;
 ;;;;AUTHORS
 ;;;;    <quazimodo> Siavash S. Sajjadi <super.quazimodo@gmail.com>
 ;;;;MODIFICATIONS
-;;;;    2013-05-25 <quazimodo> Add License, rename 
+;;;;    2013-05-25 <quazimodo> Add License, rename
 ;;;;BUGS
 ;;;;LEGAL
 ;;;;    LGPL3
-;;;;    
+;;;;
 ;;;;    Copyright Siavash S. Sajjadi 2011 - 2013
-;;;;    
+;;;;
 ;;;;    This library is free software; you can redistribute it and/or
-;;;;    modify it under the terms of the GNU Lesser General Public
+n;;;;    modify it under the terms of the GNU Lesser General Public
 ;;;;    License as published by the Free Software Foundation; either
 ;;;;    version 3 of the License, or (at your option) any later
 ;;;;    version.
-;;;;    
+;;;;
 ;;;;    This library is distributed in the hope that it will be
 ;;;;    useful, but WITHOUT ANY WARRANTY; without even the implied
 ;;;;    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 ;;;;    PURPOSE.  See the GNU Lesser General Public License for more
-;;;;    details.
-;;;;    
+;;;;details.
+;;;;
 ;;;;    You should have received a copy of the  GNU Lesser General
 ;;;;    Public License along with this library.
 ;;;;    If not, see <http://www.gnu.org/licenses/>.
@@ -51,8 +51,8 @@
 (defun smishy-kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
-  (mapc 'kill-buffer 
-        (delq (current-buffer) 
+  (mapc 'kill-buffer
+        (delq (current-buffer)
               (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun smishy-reload-top ()
@@ -92,7 +92,7 @@ This function will jump to line smishy-work-line, newline it and then put a * NE
   (goto-line (+ 2 smishy-work-line))
   ;; This bit processes the 2nd line under the work line and turns it into a
   ;; TODO which doesn't really seem to be a good thing
-  ;; (if (and (string-match "\* TODO " mystr2) 
+  ;; (if (and (string-match "\* TODO " mystr2)
   ;;          (string-match "\* NEXT ACTION ." mystr))
   ;;     (org-todo "TODO"))
   (goto-line smishy-work-line)
@@ -128,6 +128,71 @@ Finish task on the current line and save it at the bottom as 'DONE'"
           (org-back-to-heading t)
           (org-priority 65))))))
 
+(defun smishy--get-agenda-buffers ()
+  (let (blist)
+    (dolist (buf (buffer-list))
+      (when (with-current-buffer buf (eq major-mode 'org-agenda-mode))
+        (push buf blist)))
+    blist))
+
+(defun smishy-auto-update-agenda (x y z)
+  (interactive)
+  (dolist (buf (smishy--get-agenda-buffers))
+    (with-current-buffer buf (smishy--org-agenda-redo))))
+
+(defun smishy-set-after-major-mode-change-hook ()
+  (add-hook 'after-change-major-mode-hook
+            (lambda ()
+              (when (eq major-mode 'org-mode)
+                (smishy-set-after-change-hook (current-buffer))))))
+
+(defun smishy-set-after-change-hook (buf)
+  (with-current-buffer buf (add-hook 'after-change-functions 'smishy-auto-update-agenda nil buf)))
+
+(defun smishy--org-agenda-redo (&optional all)
+  (let* ((p (or (and (looking-at "\\'") (1- (point))) (point)))
+         (cpa (unless (eq all t) current-prefix-arg))
+         (org-agenda-doing-sticky-redo org-agenda-sticky)
+         (org-agenda-sticky nil)
+         (org-agenda-buffer-name (or org-agenda-this-buffer-name
+                                     org-agenda-buffer-name))
+         (org-agenda-keep-modes t)
+         (tag-filter org-agenda-tag-filter)
+         (tag-preset (get 'org-agenda-tag-filter :preset-filter))
+         (top-cat-filter org-agenda-top-category-filter)
+         (cat-filter org-agenda-category-filter)
+         (cat-preset (get 'org-agenda-category-filter :preset-filter))
+         (org-agenda-tag-filter-while-redo (or tag-filter tag-preset))
+         (cols org-agenda-columns-active)
+         (line (org-current-line))
+         (window-line (- line (org-current-line (window-start))))
+         (lprops (get 'org-agenda-redo-command 'org-lprops))
+         (redo-cmd (get-text-property p 'org-redo-cmd))
+         (last-args (get-text-property p 'org-last-args))
+         (org-agenda-overriding-cmd (get-text-property p 'org-series-cmd))
+         (org-agenda-overriding-cmd-arguments
+          (unless (eq all t)
+            (cond ((listp last-args)
+                   (cons (or cpa (car last-args)) (cdr last-args)))
+                  ((stringp last-args)
+                   last-args))))
+         (series-redo-cmd (get-text-property p 'org-series-redo-cmd)))
+    (put 'org-agenda-tag-filter :preset-filter nil)
+    (put 'org-agenda-category-filter :preset-filter nil)
+    (and cols (org-columns-quit))
+    (if series-redo-cmd
+        (eval series-redo-cmd)
+      (org-let lprops '(eval redo-cmd)))
+    (setq org-agenda-undo-list nil
+          org-agenda-pending-undo-list nil)
+    (put 'org-agenda-tag-filter :preset-filter tag-preset)
+    (put 'org-agenda-category-filter :preset-filter cat-preset)
+    (and (or tag-filter tag-preset) (org-agenda-filter-apply tag-filter 'tag))
+    (and (or cat-filter cat-preset) (org-agenda-filter-apply cat-filter 'category))
+    (and top-cat-filter (org-agenda-filter-top-category-apply top-cat-filter))
+    (and cols (org-called-interactively-p 'any) (org-agenda-columns))
+    (org-goto-line line)))
+
 (defun smishy-set-variables ()
   "Set important smishy-taskflow variables."
   (setq smishy-work-line 9) ;set what line you will be entering your task
@@ -139,6 +204,7 @@ Finish task on the current line and save it at the bottom as 'DONE'"
                     (todo "DONE")
                     (todo "DELETED")
                     (todo "TODO"))))))
+  (setq org-agenda-start-with-follow-mode t)
   (setq org-lowest-priority 69)
   (setq org-default-priority 68)
   (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil ""))
@@ -161,7 +227,7 @@ Finish task on the current line and save it at the bottom as 'DONE'"
 (defun smishy-set-faces ()
   "Set smishy-taskflow faces."
   (setq org-todo-keywords '((type "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
-  ;; Use hex values for terminal and gui color support 
+  ;; Use hex values for terminal and gui color support
   (setq org-todo-keyword-faces
         '(("NEXT ACTION" . (:foreground "#87d7d7" :background "#005c5c"))
           ("DOING" . (:foreground "#5c5c00" :background "#d7ff5f"))
@@ -170,11 +236,11 @@ Finish task on the current line and save it at the bottom as 'DONE'"
           ("DEFERRED" . (:foreground "#444444" :background "#d7875f"))
           ("DELEGATED" . (:foreground "#005c5c" :background "#87d7d7"))
           ("REF" . (:foreground "#333333" :background "#bebebe"))
-          ("NOTE" . (:foregroud "#870000" :background "#af005f"))
+          ("NOTE" . (:foreground "#870000" :background "#af005f"))
           ("DONE" . (:foreground "#5f0000" :background "#eeeeee"))
           ("DELETED" . (:foreground "#ff0000" :background "#870000"))))
   (custom-set-faces
-   
+
    '(default ((t (:background "#242424"))))
    '(org-tag ((t (:foreground "#000000" :background "#5fff00"))))
    '(org-level-1 ((t (:foreground "#d7ffff"))))
@@ -182,7 +248,6 @@ Finish task on the current line and save it at the bottom as 'DONE'"
    '(org-level-3 ((t (:foreground "#d7ffaf"))))
    '(org-level-4 ((t (:foreground "#d7ff87"))))
    '(org-special-keyword ((t (:foreground "#ff00ff" :background "#00005f"))))))
-
 
 (defun smishy-set-key-bindings ()
   "Set smishy-taskflow key-bindings.
@@ -224,7 +289,7 @@ Used to tab out of the agenda view when the marker is not on a todo, which org-m
   (interactive)
   (if (org-get-at-bol 'org-marker) ; true if org-marker
     (org-agenda-goto highlight) ; continue as normal
-    (smishy--tab-out-of-agenda-list))) ; open list 
+    (smishy--tab-out-of-agenda-list))) ; open list
 
 (defun smishy--tab-out-of-agenda-list ()
   "Create popup list to tab out of agenda view.
@@ -266,6 +331,7 @@ Creates a TODO nested under the current header at the current line"
   (smishy-set-variables)
   (smishy-set-faces)
   (smishy-set-key-bindings)
+  ;; (smishy-set-after-major-mode-change-hook)
   (smishy-reload-top)
   (org-mode))
 
