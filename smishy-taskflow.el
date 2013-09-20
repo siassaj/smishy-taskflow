@@ -55,66 +55,6 @@
         (delq (current-buffer)
               (remove-if-not 'buffer-file-name (buffer-list)))))
 
-(defun smishy--reload-top ()
-  "Prepare new Next Action line.
-This function will jump to line smishy--work-line, newline it and then put a * NEXT ACTION line in and get ready for input."
-  (interactive)
-  ;; (switch-to-buffer "biglist.org")
-  (delete-other-windows)
-  (goto-line smishy--work-line)
-  (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
-  (cond ((string= mystr "* NEXT ACTION ") (move-end-of-line 1))
-        ((string= mystr "* NEXT ACTION")
-         (move-beginning-of-line 1)
-         (kill-line)
-         (insert "* NEXT ACTION "))
-        ((string= mystr "")
-         (move-beginning-of-line 1)
-         (kill-line)
-         (newline)
-         (goto-line smishy--work-line)
-         (insert "* NEXT ACTION "))
-        ((string-match "^ +$" mystr) ;tests for 1 or more blank spaces only
-         (move-beginning-of-line 1)
-         (kill-line)
-         (newline)
-         (goto-line smishy--work-line)
-         (insert "* NEXT ACTION "))
-        (t
-         (move-beginning-of-line 1)
-         (newline)
-         (goto-line smishy--work-line)
-         (insert "* NEXT ACTION ")))
-  (goto-line (+ 1 smishy--work-line))
-  (if (string-match "\* NEXT ACTION ." mystr)
-      (org-todo "TODO"))
-  (setq mystr2 (buffer-substring (point-at-bol) (point-at-eol)))
-  (goto-line (+ 2 smishy--work-line))
-  ;; This bit processes the 2nd line under the work line and turns it into a
-  ;; TODO which doesn't really seem to be a good thing
-  ;; (if (and (string-match "\* TODO " mystr2)
-  ;;          (string-match "\* NEXT ACTION ." mystr))
-  ;;     (org-todo "TODO"))
-  (goto-line smishy--work-line)
-  (move-end-of-line 1)
-  (save-buffer))
-
-(defun smishy--save-n-go ()
-  "Save new Next Action and clone frame.
-Push the current task down, add a new DOING, then save the whole file. Finally, detach the screen, thus killing the xterm."
-  (interactive)
-  (smishy--reload-top)
-  (save-buffer)
-  (shell-command "screen -D smishy--taskflow"))
-
-(defun smishy--toggle-done ()
-  "Toggle TODO/DONE on current line.
-Finish task on the current line and save it at the bottom as 'DONE'"
-  (interactive)
-  (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
-  (cond ((string-match "^\** TODO " mystr) (org-todo "DONE"))
-        ((string-match "^\** DONE " mystr) (org-todo "TODO"))))
-
 (defun smishy--set-max-priority()
   "Set the current TODO to have the maximum priority"
   (let* ((marker (or (org-get-at-bol 'org-hd-marker)
@@ -169,8 +109,6 @@ be restored using \"(eval commands)\"."
         (push buf blist)))
     blist))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; set variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defun smishy--set-variables ()
   "Set important smishy--taskflow variables."
   (setq smishy--work-line 9) ;set what line you will be entering your task
@@ -180,12 +118,14 @@ be restored using \"(eval commands)\"."
            ((agenda "" ((org-agenda-start-on-weekday nil)))
             (todo "DONE")
             (todo "DELETED")
-            (todo "TODO"))
-           ((org-agenda-compact-blocks t)))))
+            (todo "TODO")
+            (stuck ""))
+           ((org-agenda-compact-blocks nil)))))
   (setq org-agenda-start-with-follow-mode t)
   (setq org-lowest-priority 69)
   (setq org-default-priority 68)
-  (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil ""))
+  (setq org-stuck-projects '("/PROJECT" ("TODO") nil ""))
+  ;; (setq org-stuck-projects '("{^.*}/PROJECT" ("TODO" "DOING") nil ""))
   (setq org-startup-indented t)
   (setq org-startup-folded 'content))
 
@@ -222,24 +162,24 @@ Sets keys for org-mode-map and org-agenda-mode-map.
     qjk x|b mwvz "
   (eval-after-load "org"
     '(progn
-      (define-key org-mode-map (kbd "C-c C-c") 'smishy--insert-todo)
+      (define-key org-mode-map (kbd "C-c C-c") 'smishy-insert-todo)
       (define-key org-mode-map (kbd "C-c C-d") 'org-deadline)
       (define-key org-mode-map (kbd "C-c C-h") 'org-schedule)
       (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
       (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
 
-      (define-key org-mode-map (kbd "C-c e") 'smishy--reload-tasks)
-      (define-key org-mode-map (kbd "C-c p") 'smishy--create-project)
-      (define-key org-mode-map (kbd "C-c c") 'smishy--reload-top)
+      (define-key org-mode-map (kbd "C-c e") 'smishy-reload-tasks)
+      (define-key org-mode-map (kbd "C-c p") 'smishy-create-project)
+      (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
       (define-key org-mode-map (kbd "C-c r") 'org-clock-goto)
       (define-key org-mode-map (kbd "C-c a") 'org-agenda)
       (define-key org-mode-map (kbd "C-c o") 'org-clock-out)
       (define-key org-mode-map (kbd "C-c i") 'org-clock-in)
-      (define-key org-mode-map (kbd "C-c d") 'smishy--toggle-done)
+      (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
       (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
       (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "TODO")))
       (define-key org-mode-map (kbd "C-c n") (lambda () (interactive) (org-agenda-list 56)))
-      (define-key org-mode-map (kbd "C-c s") 'smishy--save-n-go)
+      (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
       (define-key org-mode-map (kbd "C-c b") 'org-iswitchb)
 
       ;; The following keybinds are for when emacs is in an xterm, shift + direction
@@ -273,24 +213,6 @@ Usually called by smishy--tab-out-of-agenda, this function either creates a list
       (switch-to-buffer-other-window buffer)
       (find-file-other-window file-path))))
 
-(defun smishy--create-project ()
-  "Create an Org-Mode project.
-Creates an Org-Mode project, then allows you to insert a TODO"
-  (interactive)
-  (if (equal (line-number-at-pos) smishy--work-line)
-    (goto-line (+ smishy--work-line 1)))
-  (org-insert-todo-heading nil)
-  (org-todo "PROJECT"))
-
-(defun smishy--insert-todo ()
-  "Insert TODO under current header.
-Creates a TODO nested under the current header at the current line"
-  (interactive)
-  (move-end-of-line nil)
-  (newline)
-  (org-insert-todo-heading nil)
-  (org-todo "TODO"))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; public functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun smishy-start-taskflow (file-path)
@@ -304,8 +226,87 @@ Creates a TODO nested under the current header at the current line"
   (smishy--set-faces)
   (smishy--set-key-bindings)
   (smishy--set-after-major-mode-change-hook)
-  (smishy--reload-top)
-  (org-mode))
+  (delete-other-windows)
+  (smishy-reload-top)
+  (org-mode)
+  (org-agenda nil "h"))
+
+(defun smishy-reload-top ()
+  "Prepare new Next Action line.
+This function will jump to line smishy--work-line, newline it and then put a * NEXT ACTION line in and get ready for input."
+  (interactive)
+  ;; (switch-to-buffer "biglist.org")
+  (goto-line smishy--work-line)
+  (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
+  (cond ((string= mystr "* NEXT ACTION ") (move-end-of-line 1))
+        ((string= mystr "* NEXT ACTION")
+         (move-beginning-of-line 1)
+         (kill-line)
+         (insert "* NEXT ACTION "))
+        ((string= mystr "")
+         (move-beginning-of-line 1)
+         (kill-line)
+         (newline)
+         (goto-line smishy--work-line)
+         (insert "* NEXT ACTION "))
+        ((string-match "^ +$" mystr) ;tests for 1 or more blank spaces only
+         (move-beginning-of-line 1)
+         (kill-line)
+         (newline)
+         (goto-line smishy--work-line)
+         (insert "* NEXT ACTION "))
+        (t
+         (move-beginning-of-line 1)
+         (newline)
+         (goto-line smishy--work-line)
+         (insert "* NEXT ACTION ")))
+  (goto-line (+ 1 smishy--work-line))
+  (if (string-match "\* NEXT ACTION ." mystr)
+      (org-todo "TODO"))
+  (setq mystr2 (buffer-substring (point-at-bol) (point-at-eol)))
+  (goto-line (+ 2 smishy--work-line))
+  ;; This bit processes the 2nd line under the work line and turns it into a
+  ;; TODO which doesn't really seem to be a good thing
+  ;; (if (and (string-match "\* TODO " mystr2)
+  ;;          (string-match "\* NEXT ACTION ." mystr))
+  ;;     (org-todo "TODO"))
+  (goto-line smishy--work-line)
+  (move-end-of-line 1)
+  (save-buffer))
+
+(defun smishy-save-n-go ()
+  "Save new Next Action and clone frame.
+Push the current task down, add a new DOING, then save the whole file. Finally, detach the screen, thus killing the xterm."
+  (interactive)
+  (smishy-reload-top)
+  (save-buffer)
+  (shell-command "screen -D smishy--taskflow"))
+
+(defun smishy-toggle-done ()
+  "Toggle TODO/DONE on current line.
+Finish task on the current line and save it at the bottom as 'DONE'"
+  (interactive)
+  (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
+  (cond ((string-match "^\** TODO " mystr) (org-todo "DONE"))
+        ((string-match "^\** DONE " mystr) (org-todo "TODO"))))
+
+(defun smishy-create-project ()
+  "Create an Org-Mode project.
+Creates an Org-Mode project, then allows you to insert a TODO"
+  (interactive)
+  (if (equal (line-number-at-pos) smishy--work-line)
+    (goto-line (+ smishy--work-line 1)))
+  (org-insert-todo-heading nil)
+  (org-todo "PROJECT"))
+
+(defun smishy-insert-todo ()
+  "Insert TODO under current header.
+Creates a TODO nested under the current header at the current line"
+  (interactive)
+  (move-end-of-line nil)
+  (newline)
+  (org-insert-todo-heading nil)
+  (org-todo "TODO"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Test stuff, Ignore! ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -328,7 +329,7 @@ the work line. It is problematic as I still cant apply functions properly..."
       (add-text-properties (point-min) readonly-region1-end '(read-only t)))
   (add-text-properties readonly-region2-start (point-max) '(read-only t)))
 
-(defun smishy--reload-tasks ()
+(defun smishy-reload-tasks ()
   "Function to reload .smishy--taskflow, used during devel"
   (interactive)
   (load-file "~/Code/smishy--taskflow/smishy--taskflow.el"))
