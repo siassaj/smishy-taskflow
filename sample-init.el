@@ -38,6 +38,8 @@
 
 ; I put libraries into vendor directory, then I load each subdirectory
 (add-to-list 'load-path "~/.emacs.d/vendor")
+(add-to-list 'load-path "~/.emacs.d/vendor/org-mode/lisp")
+(add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp" t)
 (progn (cd "~/.emacs.d/vendor")
        (normal-top-level-add-to-load-path))
 
