@@ -81,3 +81,16 @@ Sets keys for org-mode-map and org-agenda-mode-map.
   (eval-after-load "org-agenda"
     '(progn
       (define-key org-agenda-mode-map (kbd "TAB") 'smishy--tab-out-of-agenda))))
+
+(defun smishy--set-max-priority()
+  "Set the current TODO to have the maximum priority"
+  (let* ((marker (or (org-get-at-bol 'org-hd-marker)
+                     (org-agenda-error)))
+         (buffer (marker-buffer marker)))
+    (with-current-buffer buffer
+      (save-excursion
+        (save-restriction
+          (widen)
+          (goto-char marker)
+          (org-back-to-heading t)
+          (org-priority 65))))))

@@ -7,21 +7,6 @@
 (load-library "configure")
 (load-library "auto-update-agenda-views")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Define Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun smishy--set-max-priority()
-  "Set the current TODO to have the maximum priority"
-  (let* ((marker (or (org-get-at-bol 'org-hd-marker)
-                     (org-agenda-error)))
-         (buffer (marker-buffer marker)))
-    (with-current-buffer buffer
-      (save-excursion
-        (save-restriction
-          (widen)
-          (goto-char marker)
-          (org-back-to-heading t)
-          (org-priority 65))))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; public functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun smishy-reload-top ()
