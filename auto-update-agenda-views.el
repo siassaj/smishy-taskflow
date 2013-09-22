@@ -51,7 +51,9 @@ Usually called by smishy--tab-out-of-agenda, this function either creates a list
 
 (defun smishy--bulk-update-agenda ()
   (run-with-idle-timer 0.1 t (lambda ()
-                                (smishy--auto-update-agenda))))
+                               (unless (eq major-mode 'org-agenda-mode)
+                                 (smishy--auto-update-agenda)))))
+
 
 (defun smishy--auto-update-agenda-views-start ()
   (smishy--bulk-update-agenda))
