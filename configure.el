@@ -51,25 +51,49 @@ Sets keys for org-mode-map and org-agenda-mode-map.
     qjk x|b mwvz "
   (eval-after-load "org"
     '(progn
-      (define-key org-mode-map (kbd "C-c C-c") 'smishy-insert-todo)
-      (define-key org-mode-map (kbd "C-c C-d") 'org-deadline)
-      (define-key org-mode-map (kbd "C-c C-h") 'org-schedule)
-      (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
-      (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
+       (define-key org-mode-map (kbd "C-t") nil)
+       (define-key org-mode-map (kbd "C-t M-t") 'smishy-insert-new-heading-todo)
+       (define-key org-mode-map (kbd "C-t M-p") 'smishy-insert-new-heading-project)
+       (define-key org-mode-map (kbd "C-t M-n") 'smishy-insert-new-heading-note)
+       (define-key org-mode-map (kbd "C-t M-r") 'smishy-insert-new-heading-ref)
 
-      (define-key org-mode-map (kbd "C-c e") 'smishy-reload-tasks)
-      (define-key org-mode-map (kbd "C-c p") 'smishy-create-project)
-      (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
-      (define-key org-mode-map (kbd "C-c r") 'org-clock-goto)
-      (define-key org-mode-map (kbd "C-c a") 'org-agenda)
-      (define-key org-mode-map (kbd "C-c o") 'org-clock-out)
-      (define-key org-mode-map (kbd "C-c i") 'org-clock-in)
-      (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
-      (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
-      (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "TODO")))
-      (define-key org-mode-map (kbd "C-c n") (lambda () (interactive) (org-agenda-list 56)))
-      (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
-      (define-key org-mode-map (kbd "C-c b") 'org-iswitchb)
+       (define-key org-mode-map (kbd "C-t t") 'smishy-insert-heading-todo)
+       (define-key org-mode-map (kbd "C-t p") 'smishy-insert-heading-project)
+       (define-key org-mode-map (kbd "C-t n") 'smishy-insert-heading-note)
+       (define-key org-mode-map (kbd "C-t r") 'smishy-insert-heading-ref)
+
+       (define-key org-mode-map (kbd "C-t C-t") 'smishy-insert-subheading-todo)
+       (define-key org-mode-map (kbd "C-t C-p") 'smishy-insert-subheading-project)
+       (define-key org-mode-map (kbd "C-t C-n") 'smishy-insert-subheading-note)
+       (define-key org-mode-map (kbd "C-t C-r") 'smishy-insert-subheading-ref)
+
+       (define-key org-mode-map (kbd "C-t i") 'org-clock-in)
+       (define-key org-mode-map (kbd "C-t o") 'org-clock-out)
+       (define-key org-mode-map (kbd "C-t c") 'org-clock-goto)
+
+       (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
+
+       (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
+
+       (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
+       (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "TODO")))
+       (define-key org-mode-map (kbd "C-c n") (lambda () (interactive) (org-agenda-list 56)))
+
+      ;; (define-key org-mode-map (kbd "C-c C-c") 'smishy-insert-todo)
+      ;; (define-key org-mode-map (kbd "C-c C-d") 'org-deadline)
+      ;; (define-key org-mode-map (kbd "C-c C-h") 'org-schedule)
+
+      ;; (define-key org-mode-map (kbd "C-c C-l") 'org-store-link)
+
+      ;; (define-key org-mode-map (kbd "C-c e") 'smishy-reload-tasks)
+      ;; (define-key org-mode-map (kbd "C-c p") 'smishy-create-project)
+      ;; (define-key org-mode-map (kbd "C-c c") 'smishy-reload-top)
+      ;; (define-key org-mode-map (kbd "C-c a") 'org-agenda)
+
+
+
+      ;; (define-key org-mode-map (kbd "C-c s") 'smishy-save-n-go)
+      ;; (define-key org-mode-map (kbd "C-c b") 'org-iswitchb)
 
       ;; The following keybinds are for when emacs is in an xterm, shift + direction
       ;; keys return ESC [ 1 ; 2 bla  for some reason (reason is found in ECMA-48) ;;

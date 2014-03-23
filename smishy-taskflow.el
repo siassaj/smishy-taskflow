@@ -77,14 +77,91 @@ Creates an Org-Mode project, then allows you to insert a TODO"
   (org-insert-todo-heading nil)
   (org-todo "PROJECT"))
 
-(defun smishy-insert-todo ()
-  "Insert TODO under current header.
-Creates a TODO nested under the current header at the current line"
+(defun smishy-insert-heading-todo ()
+  "Insert TODO heading"
   (interactive)
-  (move-end-of-line nil)
-  (newline)
+  (smishy--insert-heading "TODO"))
+
+(defun smishy-insert-heading-project ()
+  "Insert PROJECT heading"
+  (interactive)
+  (smishy--insert-heading "PROJECT"))
+
+(defun smishy-insert-heading-ref ()
+  "Insert REF heading"
+  (interactive)
+  (smishy--insert-heading "REF"))
+
+(defun smishy-insert-heading-note ()
+  "Insert NOTE heading"
+  (interactive)
+  (smishy--insert-heading "NOTE"))
+
+(defun smishy-insert-new-heading-todo ()
+  "Insert TODO new-heading"
+  (interactive)
+  (smishy--insert-new-heading "TODO"))
+
+(defun smishy-insert-new-heading-project ()
+  "Insert PROJECT new-heading"
+  (interactive)
+  (smishy--insert-new-heading "PROJECT"))
+
+(defun smishy-insert-new-heading-ref ()
+  "Insert REF new-heading"
+  (interactive)
+  (smishy--insert-new-heading "REF"))
+
+(defun smishy-insert-new-heading-note ()
+  "Insert NOTE new-heading"
+  (interactive)
+  (smishy--insert-new-heading "NOTE"))
+
+(defun smishy-insert-subheading-todo ()
+  "Insert TODO subheading"
+  (interactive)
+  (smishy--insert-subheading "TODO"))
+
+(defun smishy-insert-subheading-project ()
+  "Insert PROJECT subheading"
+  (interactive)
+  (smishy--insert-subheading "PROJECT"))
+
+(defun smishy-insert-subheading-ref ()
+  "Insert REF subheading"
+  (interactive)
+  (smishy--insert-subheading "REF"))
+
+(defun smishy-insert-subheading-note ()
+  "Insert NOTE subheading"
+  (interactive)
+  (smishy--insert-subheading "NOTE"))
+
+(defun smishy--insert-heading (val)
+  "Insert val heading
+Creates a val heading in the current line"
+  ;; (move-end-of-line nil)
+  ;; (newline)
   (org-insert-todo-heading nil)
-  (org-todo "TODO"))
+  (org-todo val))
+
+(defun smishy--insert-new-heading (val)
+  "Insert new val heading
+Creates a new val heading in the current line"
+  ;; (move-end-of-line nil)
+  ;; (newline)
+  (goto-line (+ 1 smishy--work-line))
+  (org-insert-todo-heading nil)
+  (org-todo val))
+
+(defun smishy--insert-subheading (val)
+  "Insert val subheading
+Creates a val subheading in the current line"
+  ;; (move-end-of-line nil)
+  ;; (newline)
+  (org-insert-todo-subheading nil)
+  (org-todo val))
+
 
 (defun smishy-start-taskflow (file-path)
   "Start the smishy task flow"
@@ -96,7 +173,7 @@ Creates a TODO nested under the current header at the current line"
   (smishy--set-variables)
   (smishy--set-faces)
   (smishy--set-key-bindings)
-  (smishy--auto-update-agenda-views-start)
+  ;; (smishy--auto-update-agenda-views-start)
   (delete-other-windows)
   (smishy-reload-top)
   (org-mode)
