@@ -2,6 +2,8 @@
   "Set important smishy--taskflow variables."
   (setq smishy--work-line 9) ;set what line you will be entering your task
   (setq org-agenda-start-with-clockreport-mode t)
+  (setq org-todo-keywords '((type "ACTION(a@)" "PROJECT(!)" "SOMEDAY(!)" "WAITING(w@/!)" "|" "DONE(d@)" "DELETED(D!)")
+                            (type "|" "REF" "NOTE")))
   (setq org-tag-alist '("general(g)" "home(h)" "call(c)" "mail(m)" "errand(e)" "event(E)" "review(r)"))
   (setq org-agenda-custom-commands
         '(("g" tags-todo "general")
@@ -44,8 +46,7 @@
 
 (defun smishy--set-faces ()
   "Set smishy--taskflow faces."
-  (setq org-todo-keywords '((type "ACTION" "PROJECT" "SOMEDAY" "WAITING" "|" "DONE" "DELETED")
-                            (type "|" "REF" "NOTE")))
+
   ;; Use hex values for terminal and gui color support
   (setq org-todo-keyword-faces
         '(("ACTION" . (:foreground "#eeeeee" :background "#9a32cd"))
