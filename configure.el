@@ -1,22 +1,39 @@
 (defun smishy--set-variables ()
   "Set important smishy--taskflow variables."
   (setq smishy--work-line 9) ;set what line you will be entering your task
-  (setq org-agenda-start-with-clockreport-mode t)
-  (setq org-todo-keywords '((type "ACTION(a@)" "PROJECT(!)" "SOMEDAY(!)" "WAITING(w@/!)" "|" "DONE(d@)" "DELETED(D!)")
-                            (type "|" "REF" "NOTE")))
-  (setq org-tag-alist '("general(g)" "home(h)" "call(c)" "mail(m)" "errand(e)" "event(E)" "review(r)"))
+  (setq org-clock-report-include-clocking-task t)
+  (setq org-log-into-drawer t)
+  (setq org-log-done 'time)
+  (setq org-todo-keywords '((type "ACTION(a!)" "PROJECT(p!)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "|" "DONE(d)" "DELETED(D)")
+                            (type "REF(r)" "NOTE(n)" "|" )))
+  (setq org-tag-alist '("general(g)" "home(h)" "call(c)" "mail(m)" "errand(e)" "event(E)" "readreview(r)"))
   (setq org-agenda-custom-commands
-        '(("g" tags-todo "general")
-          ("c" tags-todo "call")
-          ("m" tags-todo "mail")
-          ("e" tags-todo "errand")
-          ("E" tags-todo "event")
-          ("r" tags-todo "review")
-          ("H" tags-todo "home")
+        '(("R" "Weekly Review"
+           ((stuck "PROJECT")
+            (todo "ACTION")
+            (todo "WAITING")
+            (agenda ""
+                    ((org-agenda-span 'fortnight)
+                     (org-agenda-clockreport-mode nil)))
+            (todo "SOMEDAY")))
+          ("g" tags-todo "general"
+           ((org-agenda-overriding-header "General")))
+          ("c" tags-todo "call"
+           ((org-agenda-overriding-header "Calls")))
+          ("m" tags-todo "mail"
+           ((org-agenda-overriding-header "Mailable")))
+          ("e" tags-todo "errand"
+           ((org-agenda-overriding-header "Errands")))
+          ("E" tags-todo "event"
+           ((org-agenda-overriding-header "Events")))
+          ("r" tags-todo "readreview"
+           ((org-agenda-overriding-header "Read/Review Pile")))
+          ("H" tags-todo "home"
+           ((org-agenda-overriding-header "Home things")))
           ("h" "2 week agenda, DONE and ACTIONs"
-           ((agenda "" ((org-agenda-start-on-weekday nil)))
-            (todo "DONE")
-            (todo "DELETED")
+           ((agenda "" ((org-agenda-span 1)
+                        (org-agenda-clockreport-mode t)))
+            (todo "DONE|DELETED")
             (todo "ACTION")
             (stuck "PROJECT"))
            ((org-agenda-compact-blocks nil)))))
@@ -42,7 +59,9 @@
           ("E" "Event" entry (file "~/org/biglist.org")
            "* ACTION %? :event:\n%u")
           ("r" "Read/Review" entry (file "~/org/biglist.org")
-           "* ACTION %? :review:\n%u"))))
+           "* ACTION %? :readreview:\n%u")
+          ("w" "Waiting" entry (file "~/org/biglist.org")
+           "* WAITING %?\n%u"))))
 
 (defun smishy--set-faces ()
   "Set smishy--taskflow faces."
@@ -65,6 +84,7 @@
    '(org-level-2 ((t (:foreground "#d7ffd7"))))
    '(org-level-3 ((t (:foreground "#d7ffaf"))))
    '(org-level-4 ((t (:foreground "#d7ff87"))))
+   '(org-agenda-date-today ((t (:background "#444444"))))
    '(org-special-keyword ((t (:foreground "#ff00ff" :background "#00005f"))))))
 
 
@@ -84,7 +104,7 @@ Sets keys for org-mode-map and org-agenda-mode-map.
 
        (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
 
-       (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags)
+       ;; (define-key org-mode-map (kbd "C-c C-t") 'org-set-tags
 
        (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
        (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "ACTION")))
