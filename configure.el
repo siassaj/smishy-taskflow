@@ -4,7 +4,7 @@
   ;; (setq org-mobile-capture-file "~/org/captured.org")
   (setq org-refile-targets '((org-agenda-files :todo . "PROJECT")
                              (org-agenda-files :todo . "REF")))
-  (setq org-reverse-note-order t)
+  ;; (setq org-reverse-note-order t)
   (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes t)
@@ -14,20 +14,28 @@
   (setq org-clock-report-include-clocking-task t)
   (setq org-log-into-drawer t)
   (setq org-log-done 'time)
+  (setq org-agenda-todo-ignore-scheduled t)
+  (setq org-agenda-todo-ignore-deadlines t)
+  (setq org-agenda-todo-ignore-with-date t)
   (setq org-todo-keywords '((type "ACTION(a!)" "PROJECT(p)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "|" "DONE(d)" "DELETED(D)")
                             (type "REF(r)" "NOTE(n)" "|" )))
-  (setq org-tag-alist '(( "general" . 103) ( "home" . 104) ( "call" . 99) ( "mail" . 109) ( "errand" . 101) ( "event" . 69) ( "readreview" . 114)))
+  (setq org-tag-alist '(( "general" . 103) ( "home" . 104) ("office" . 111) ("web" . 87) ( "call" . 99) ( "mail" . 109) ( "errand" . 101) ( "event" . 69) ( "readreview" . 114)))
   (setq org-agenda-custom-commands
-        '(("R" "Weekly Review"
+        '(("R" "Weekly Review, lists scheduled/deadlined tasks"
            ((stuck "PROJECT" ((org-stuck-projects '("/PROJECT" ("ACTION" "WAITING") nil ""))))
             (todo "ACTION")
             (todo "WAITING")
             (agenda ""
                     ((org-agenda-span 'fortnight)
                      (org-agenda-clockreport-mode nil)))
-            (todo "SOMEDAY")))
+            (todo "SOMEDAY"))
+           ((org-agenda-todo-ignore-scheduled nil)
+            (org-agenda-todo-ignore-deadlines nil)
+            (org-agenda-todo-ignore-with-date nil)))
           ("g" tags-todo "general"
            ((org-agenda-overriding-header "General")))
+          ("W" tags-todo "web"
+           ((org-agenda-overriding-header "Web")))
           ("c" tags-todo "call"
            ((org-agenda-overriding-header "Calls")))
           ("m" tags-todo "mail"
@@ -40,6 +48,9 @@
            ((org-agenda-overriding-header "Read/Review Pile")))
           ("H" tags-todo "home"
            ((org-agenda-overriding-header "Home things")))
+          ("o" tags-todo "office"
+           ((org-agenda-overriding-header "Office things")))
+
           ("h" "2 week agenda, DONE and ACTIONs"
            ((todo "DONE|DELETED")
             (todo "ACTION")
@@ -47,6 +58,7 @@
                         (org-agenda-clockreport-mode t)))
             (stuck "PROJECT" ((org-stuck-projects '("/PROJECT" ("ACTION" "WAITING") nil "")))))
            ((org-agenda-compact-blocks nil)))))
+
   (setq org-agenda-start-with-follow-mode t)
   (setq org-agenda-include-diary t)
   (setq org-lowest-priority 69)
@@ -64,6 +76,10 @@
            "* ACTION %? :general:\n%u")
           ("h" "Home" entry (file ,capture-file)
            "* ACTION %? :home:\n%u")
+          ("W" "Web" entry (file ,capture-file)
+           "* ACTION %? :web:\n%u")
+          ("o" "Office" entry (file ,capture-file)
+           "* ACTION %? :office:\n%u")
           ("c" "Call" entry (file ,capture-file)
            "* ACTION %? :call:\n%u")
           ("m" "(e)Mail" entry (file ,capture-file)
@@ -75,7 +91,9 @@
           ("r" "Read/Review" entry (file ,capture-file)
            "* ACTION %? :readreview:\n%u")
           ("w" "Waiting" entry (file ,capture-file)
-           "* WAITING %?\n%u"))))
+           "* WAITING %?\n%u")
+          ("p" "Project" entry (file ,capture-file)
+           "* PROJECT %?\nOutcome: %^{Outcome}\n%u"))))
 
 (defun smishy--set-faces ()
   "Set smishy--taskflow faces."
