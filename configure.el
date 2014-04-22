@@ -17,12 +17,25 @@
   (setq org-agenda-todo-ignore-scheduled t)
   (setq org-agenda-todo-ignore-deadlines t)
   (setq org-agenda-todo-ignore-with-date t)
-  (setq org-todo-keywords '((type "ACTION(a!)" "PROJECT(p)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "|" "DONE(d)" "DELETED(D)")
-                            (type "REF(r)" "NOTE(n)" "|" )))
-  (setq org-tag-alist '(( "general" . 103) ( "home" . 104) ("office" . 111) ("web" . 87) ( "call" . 99) ( "mail" . 109) ( "errand" . 101) ( "event" . 69) ( "readreview" . 114)))
+  (setq org-todo-keywords '((type "ACTION(a!)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "|" "DONE(d)" "DELETED(D)")
+                            (type "REF(r)" "NOTE(n)" "|" )
+                            (type "PROJECT(p)" "|" "CLOSED(c@/!)")))
+  (setq org-tag-alist
+        `(("general" . ,(character "g"))
+          ("home" . ,(character "h"))
+          ("office" . ,(character "o"))
+          ("web" . ,(character "W"))
+          ("call" . ,(character "c"))
+          ("mail" . ,(character "m"))
+          ("errand" . ,(character "e"))
+          ("event" . ,(character "E"))
+          ("review" . ,(character "r"))
+          ("flagged" . ,(character "f"))))
+
   (setq org-agenda-custom-commands
         '(("R" "Weekly Review, lists scheduled/deadlined tasks"
-           ((stuck "PROJECT" ((org-stuck-projects '("/PROJECT" ("ACTION" "WAITING") nil ""))))
+           ((stuck "PROJECT" ((org-stuck-projects '("/PROJECT" ("ACTION" "WAITING" "SOMEDAY") nil ""))))
+            (todo "DONE|DELETED|CLOSED")
             (todo "ACTION")
             (todo "WAITING")
             (agenda ""
@@ -44,7 +57,7 @@
            ((org-agenda-overriding-header "Errands")))
           ("E" tags-todo "event"
            ((org-agenda-overriding-header "Events")))
-          ("r" tags-todo "readreview"
+          ("r" tags-todo "review"
            ((org-agenda-overriding-header "Read/Review Pile")))
           ("H" tags-todo "home"
            ((org-agenda-overriding-header "Home things")))
@@ -52,14 +65,17 @@
            ((org-agenda-overriding-header "Office things")))
 
           ("h" "2 week agenda, DONE and ACTIONs"
-           ((todo "DONE|DELETED")
+           ((todo "DONE|DELETED|CLOSED" ((org-agenda-todo-ignore-scheduled nil)
+                                         (org-agenda-todo-ignore-deadlines nil)
+                                         (org-agenda-todo-ignore-with-date nil)))
             (todo "ACTION")
             (agenda "" ((org-agenda-span 1)
                         (org-agenda-clockreport-mode t)))
-            (stuck "PROJECT" ((org-stuck-projects '("/PROJECT" ("ACTION" "WAITING") nil "")))))
+            (todo "WAITING")
+            (stuck "PROJECT" ((org-stuck-projects '("/PROJECT" ("ACTION" "WAITING" "SOMEDAY") nil "")))))
            ((org-agenda-compact-blocks nil)))))
 
-  (setq org-agenda-start-with-follow-mode t)
+  (setq org-agenda-start-with-0ollow-mode t)
   (setq org-agenda-include-diary t)
   (setq org-lowest-priority 69)
   (setq org-default-priority 68)
@@ -89,7 +105,7 @@
           ("E" "Event" entry (file ,capture-file)
            "* ACTION %? :event:\n%u")
           ("r" "Read/Review" entry (file ,capture-file)
-           "* ACTION %? :readreview:\n%u")
+           "* ACTION %? :review:\n%u")
           ("w" "Waiting" entry (file ,capture-file)
            "* WAITING %?\n%u")
           ("p" "Project" entry (file ,capture-file)
@@ -99,6 +115,16 @@
   "Set smishy--taskflow faces."
 
   ;; Use hex values for terminal and gui color support
+  (setq org-tag-faces
+        '(("web" :foreground "#0000cd" :weight "bold")
+          ("call" :foreground "#aa0000" :weight "bold")
+          ("errand" :foreground "#008b8b" :weight "bold")
+          ("review" :foreground "#cd00cd" :weight "bold")
+          ("mail" :foreground "#00afcc" :weight "bold")
+          ("home" :foreground "#ff875f" :weight "bold")
+          ("general" :foreground "#5f5faf" :weight "bold")
+          ("flagged" :foreground "#000000" :background "#ff33ff" :weight "bold")))
+
   (setq org-todo-keyword-faces
         '(("ACTION" . (:foreground "#eeeeee" :background "#9a32cd"))
           ("PROJECT" . (:foreground "#005c00" :background "#5fff5f"))
@@ -108,6 +134,7 @@
           ("NOTE" . (:foreground "#870000" :background "#af005f"))
           ("DONE" . (:foreground "#5f0000" :background "#eeeeee"))
           ("DELETED" . (:foreground "#ff0000" :background "#870000"))))
+
   (custom-set-faces
 
    '(default ((t (:background "#242424"))))

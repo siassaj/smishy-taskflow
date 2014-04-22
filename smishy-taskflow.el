@@ -6,6 +6,7 @@
 
 ;; (load-library "org-mobile-overrides")
 (load-library "org-refile-overrides")
+(load-library "character")
 (load-library "configure")
 (load-library "auto-update-agenda-views")
 
@@ -17,7 +18,10 @@ Finish task on the current line and save it at the bottom as 'DONE'"
   (interactive)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
   (cond ((string-match "^\** ACTION " mystr) (org-todo "DONE"))
-        ((string-match "^\** DONE " mystr) (org-todo "ACTION"))))
+        ((string-match "^\** DONE " mystr) (org-todo "ACTION"))
+        ((string-match "^\** PROJECT " mystr) (org-todo "CLOSED"))
+        ((string-match "^\** CLOSED " mystr) (org-todo "PROJECT"))))
+
 
 (defun smishy-create-project ()
   "Create an Org-Mode project.
