@@ -46,5 +46,5 @@ if [[ `screen -ls | grep -owc "smishy-taskflow"` = 1 ]]; then
     xterm -Te screen -raAd smishy-taskflow
 else
     # CREATE
-    screen -dmS smishy-taskflow emacs -nw -q -l $config_location
+    screen -dmS smishy-taskflow emacs -q -l $config_location
 fi
