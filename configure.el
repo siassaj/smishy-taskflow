@@ -17,15 +17,21 @@
   (setq org-agenda-todo-ignore-scheduled t)
   (setq org-agenda-todo-ignore-deadlines t)
   (setq org-agenda-todo-ignore-with-date t)
+  (setq org-enforce-todo-dependencies t)
   (setq org-todo-keywords '((type "ACTION(a!)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "|" "DONE(d)" "DELETED(D)")
                             (type "REF(r)" "NOTE(n)" "|" )
                             (type "PROJECT(p)" "|" "CLOSED(c@/!)")))
+  (setq org-drawers (append org-drawers '("DETAILS")))
   (setq org-tag-alist
         `(("general" . ,(character "g"))
           ("home" . ,(character "h"))
+          ("meeting" . ,(character "M"))
           ("office" . ,(character "o"))
           ("web" . ,(character "W"))
           ("call" . ,(character "c"))
+	  ("coffee" . ,(character "j"))
+	  ("break" . ,(character "b"))
+	  ("foosball" . ,(character "F"))
           ("mail" . ,(character "m"))
           ("errand" . ,(character "e"))
           ("event" . ,(character "E"))
@@ -47,11 +53,19 @@
             (org-agenda-todo-ignore-with-date nil)))
           ("g" tags-todo "general"
            ((org-agenda-overriding-header "General")))
+          ("M" tags-todo "meeting"
+           ((org-agenda-overriding-header "Meeting")))
           ("W" tags-todo "web"
            ((org-agenda-overriding-header "Web")))
           ("c" tags-todo "call"
            ((org-agenda-overriding-header "Calls")))
           ("m" tags-todo "mail"
+	   ((org-agenda-overriding-header "Coffee")))
+          ("j" tags-todo "coffee"
+	   ((org-agenda-overriding-header "Break")))
+          ("b" tags-todo "break"
+	   ((org-agenda-overriding-header "Foosball")))
+          ("F" tags-todo "foos"
            ((org-agenda-overriding-header "Mailable")))
           ("e" tags-todo "errand"
            ((org-agenda-overriding-header "Errands")))
@@ -90,12 +104,20 @@
   (setq org-capture-templates
         `(("g" "General" entry (file ,capture-file)
            "* ACTION %? :general:\n%u")
+          ("M" "Meeting" entry (file ,capture-file)
+           "* ACTION %? :meeting:\n%u")
           ("h" "Home" entry (file ,capture-file)
            "* ACTION %? :home:\n%u")
           ("W" "Web" entry (file ,capture-file)
            "* ACTION %? :web:\n%u")
           ("o" "Office" entry (file ,capture-file)
            "* ACTION %? :office:\n%u")
+	  ("j" "Coffee" entry (file ,capture-file)
+           "* ACTION %? :coffee:\n%u")
+	  ("b" "Break" entry (file ,capture-file)
+           "* ACTION %? :break:\n%u")
+	  ("F" "Foosball" entry (file ,capture-file)
+           "* ACTION %? :foos:\n%u")
           ("c" "Call" entry (file ,capture-file)
            "* ACTION %? :call:\n%u")
           ("m" "(e)Mail" entry (file ,capture-file)
@@ -125,6 +147,7 @@
           ("general" :foreground "#5f5faf" :weight "bold")
           ("flagged" :foreground "#000000" :background "#ff33ff" :weight "bold")))
 
+
   (setq org-todo-keyword-faces
         '(("ACTION" . (:foreground "#eeeeee" :background "#9a32cd"))
           ("PROJECT" . (:foreground "#005c00" :background "#5fff5f"))
@@ -136,15 +159,17 @@
           ("DELETED" . (:foreground "#ff0000" :background "#870000"))))
 
   (custom-set-faces
-
+   '(org-tag ((t (:foreground "#5f5faf"))))
    '(default ((t (:background "#242424"))))
    '(org-tag ((t (:foreground "#555555"))))
    '(org-level-1 ((t (:foreground "#d7ffff"))))
    '(org-level-2 ((t (:foreground "#d7ffd7"))))
    '(org-level-3 ((t (:foreground "#d7ffaf"))))
    '(org-level-4 ((t (:foreground "#d7ff87"))))
-   '(org-agenda-date-today ((t (:background "#444444"))))
-   '(org-special-keyword ((t (:foreground "#ff00ff" :background "#00005f"))))))
+   '(org-agenda-date-today ((t
+                             (:weight bold :slant italic :underline "#cd00cd"
+                              :background "#444444" :inherit (org-agenda-date)))))
+  '(org-special-keyword ((t (:foreground "#ff00ff" :background "#00005f"))))))
 
 
 (defun smishy--set-key-bindings ()
@@ -175,10 +200,10 @@ Sets keys for org-mode-map and org-agenda-mode-map.
       (define-key org-mode-map (kbd "ESC [ 1 ; 2 C") (kbd "<S-right>"))
       (define-key org-mode-map (kbd "ESC [ 1 ; 2 A") (kbd "<S-up>"))
       (define-key org-mode-map (kbd "ESC [ 1 ; 2 B") (kbd "<S-down>"))))
-
-  (eval-after-load "org-agenda"
-    '(progn
-      (define-key org-agenda-mode-map (kbd "TAB") 'smishy--tab-out-of-agenda))))
+)
+  ;; (eval-after-load "org-agenda"
+  ;;   '(progn
+  ;;     (define-key org-agenda-mode-map (kbd "TAB") 'smishy--tab-out-of-agenda))))
 
 (defun smishy--set-max-priority()
   "Set the current ACTION to have the maximum priority"
