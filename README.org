@@ -16,10 +16,10 @@
 #        \ \__\ \__/.\_\/\____/ \ \_\ \_\ \_\   /\___ \ \____/\ \___x___/'
 #         \/__/\/__/\/_/\/___/   \/_/\/_/\/_/   \/____/\/___/  \/__//__/  
 * VERSION
-  Version 1.2
+  Version 1.3
 
-* README
-  **Disclaimer** This is merely how I use org-mode, with some helper functions and keybinds.
+* ABOUT
+  **Disclaimer** This is merely how I use org-mode with some helper functions and keybindings, not an attempt at redefining how org-mode must be used. If you find a better way to do something let me know. 
 
   Smishy taskflow is my attempt to implement *GTD (getting things done)* running on Emacs with org-mode. It's meant to be very simple, very quick and completely out of the way. Ideally it is switched into view, interacted with, and switched away.
 
@@ -42,7 +42,7 @@
 
   The *LAST STEP* for each of these is =C-c c= to save the list or =C-c s= to save and then hide the Emacs frame.
   
-  You can also set the priority of TODO headlines with =SHIFT UP/DOWN_ARROW=, Which I use pretty extensively.
+  You can also set the priority of TODO headlines with =SHIFT ↑/↓=, which I use pretty extensively.
 ** Working
 *** Start/Continue A Task
     1. =C-c h= to get into combo agenda view
@@ -102,7 +102,7 @@
     
     Just try to keep the list clean because it can grow pretty unwieldy.
 ** Keywords
-   You can use =SHIFT LEFT/RIGHT_ARROW= to change states. DONE/TODO can be toggled with =C-c d=.
+   You can use =SHIFT ←/→= to change states. DONE/TODO can be toggled with =C-c d=.
    - NEXT ACTION :: Just a place holder in the org file's work line, not really used anywhere else.
    - TODO :: The most frequent keyword, a standard TODO (actionable step).
    - DOING :: You can use this, I rarely do since I use the clock now.
@@ -140,11 +140,11 @@
    - =TAB= :: Switch out to any know Org Buffers if point is not on a TODO item line
 
 * GIT
-  https://github.com/quazimodo/smishy-taskflow
+  https://github.com/siassaj/smishy-taskflow
 * LICENSE
   LGPL3
   
-  Copyright Siavash S.Sajjadi 2013
+  Copyright Siavash S.Sajjadi 2013 - 2015
   
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -161,7 +161,3 @@
   You should have received a copy of the  GNU Lesser General
   Public License along with this library.
   If not, see <http://www.gnu.org/licenses/>.
-
-* CONTACT
-  super.quazimodo@gmail.com
-

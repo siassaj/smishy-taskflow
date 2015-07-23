@@ -5,54 +5,55 @@
 ;;;;SYSTEM:             emacs
 ;;;;USER-INTERFACE:     emacs
 ;;;;DESCRIPTION
-;;;;    
+;;;;
 ;;;;    This library is my implementation of Getting Things Done.
-;;;;    It uses org-mode, some helper functions and settings, and 
+;;;;    It uses org-mode, some helper functions and settings, and
 ;;;;    designed to be extremely quick and out of the way. It is nicer
 ;;;;    when used with a tiling window manager.
-;;;;    
+;;;;
 ;;;;AUTHORS
 ;;;;    <quazimodo> Siavash S. Sajjadi <super.quazimodo@gmail.com>
 ;;;;MODIFICATIONS
-;;;;    2013-05-25 <quazimodo> Add License, rename 
+;;;;    2013-05-25 <quazimodo> Add License, rename
 ;;;;BUGS
 ;;;;LEGAL
 ;;;;    LGPL3
-;;;;    
+;;;;
 ;;;;    Copyright Siavash S. Sajjadi 2011 - 2013
-;;;;    
+;;;;
 ;;;;    This library is free software; you can redistribute it and/or
 ;;;;    modify it under the terms of the GNU Lesser General Public
 ;;;;    License as published by the Free Software Foundation; either
 ;;;;    version 3 of the License, or (at your option) any later
 ;;;;    version.
-;;;;    
+;;;;
 ;;;;    This library is distributed in the hope that it will be
 ;;;;    useful, but WITHOUT ANY WARRANTY; without even the implied
 ;;;;    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 ;;;;    PURPOSE.  See the GNU Lesser General Public License for more
 ;;;;    details.
-;;;;    
+;;;;
 ;;;;    You should have received a copy of the  GNU Lesser General
 ;;;;    Public License along with this library.
 ;;;;    If not, see <http://www.gnu.org/licenses/>.
 ;;;;**************************************************************************
 ;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;; Make sure to have dependencies ;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'screen)
 (require 'org)
 (require 'popup)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Define Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (load-library "org-mobile-overrides")
+(load-library "org-refile-overrides")
+(load-library "character")
+(load-library "configure")
+(load-library "auto-update-agenda-views")
 
 (defun smishy-kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
-  (mapc 'kill-buffer 
-        (delq (current-buffer) 
+  (mapc 'kill-buffer
+        (delq (current-buffer)
               (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun smishy-reload-top ()
@@ -92,7 +93,7 @@ This function will jump to line smishy-work-line, newline it and then put a * NE
   (goto-line (+ 2 smishy-work-line))
   ;; This bit processes the 2nd line under the work line and turns it into a
   ;; TODO which doesn't really seem to be a good thing
-  ;; (if (and (string-match "\* TODO " mystr2) 
+  ;; (if (and (string-match "\* TODO " mystr2)
   ;;          (string-match "\* NEXT ACTION ." mystr))
   ;;     (org-todo "TODO"))
   (goto-line smishy-work-line)
@@ -108,12 +109,14 @@ Push the current task down, add a new DOING, then save the whole file. Finally, 
   (shell-command "screen -D smishy-taskflow"))
 
 (defun smishy-toggle-done ()
-  "Toggle TODO/DONE on current line.
+  "Toggle ACTION/DONE on current line.
 Finish task on the current line and save it at the bottom as 'DONE'"
   (interactive)
   (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
-  (cond ((string-match "^\** TODO " mystr) (org-todo "DONE"))
-        ((string-match "^\** DONE " mystr) (org-todo "TODO"))))
+  (cond ((string-match "^\** ACTION " mystr) (org-todo "DONE"))
+        ((string-match "^\** DONE " mystr) (org-todo "ACTION"))
+        ((string-match "^\** PROJECT " mystr) (org-todo "CLOSED"))
+        ((string-match "^\** CLOSED " mystr) (org-todo "PROJECT"))))
 
 (defun smishy-set-max-priority()
   "Set the current TODO to have the maximum priority"
@@ -145,7 +148,7 @@ Finish task on the current line and save it at the bottom as 'DONE'"
 (defun smishy-set-faces ()
   "Set smishy-taskflow faces."
   (setq org-todo-keywords '((type "NEXT ACTION" "DOING" "TODO" "PROJECT" "DEFERRED" "DELEGATED" "REF" "NOTE" "|" "DONE" "DELETED")))
-  ;; Use hex values for terminal and gui color support 
+  ;; Use hex values for terminal and gui color support
   (setq org-todo-keyword-faces
         '(("NEXT ACTION" . (:foreground "#000000" :background "#ffff00"))
           ("DOING" . (:foreground "#000000" :background "#cdcd00"))
@@ -203,7 +206,7 @@ Used to tab out of the agenda view when the marker is not on a todo, which org-m
   (interactive)
   (if (org-get-at-bol 'org-marker) ; true if org-marker
     (org-agenda-goto highlight) ; continue as normal
-    (smishy--tab-out-of-agenda-list))) ; open list 
+    (smishy--tab-out-of-agenda-list))) ; open list
 
 (defun smishy--tab-out-of-agenda-list ()
   "Create popup list to tab out of agenda view.
@@ -219,61 +222,52 @@ Usually called by smishy-tab-out-of-agenda, this function either creates a list 
 
 (defun smishy-create-project ()
   "Create an Org-Mode project.
-Creates an Org-Mode project, then allows you to insert a TODO"
+Creates an Org-Mode project, then allows you to insert a ACTION"
   (interactive)
-  (if (equal (line-number-at-pos) smishy-work-line)
-    (goto-line (+ smishy-work-line 1)))
+  (if (equal (line-number-at-pos) smishy--work-line)
+    (goto-line (+ smishy--work-line 1)))
   (org-insert-todo-heading nil)
   (org-todo "PROJECT"))
 
-(defun smishy-insert-todo ()
-  "Insert TODO under current header.
-Creates a TODO nested under the current header at the current line"
-  (interactive)
-  (move-end-of-line nil)
-  (newline)
-  (org-insert-todo-heading nil)
-  (org-todo "TODO"))
-
-(defun smishy-start-taskflow (file-path)
+(defun smishy-start-taskflow (files-path)
   "Start the smishy task flow"
   (interactive)
   (setq inhibit-splash-screen t)
-  (let ((buff (find-file-noselect file-path)))
-    (pop-to-buffer buff)
-    (add-to-list 'org-agenda-files (buffer-file-name buff)))
-  (smishy-set-variables)
-  (smishy-set-faces)
-  (smishy-set-key-bindings)
-  (smishy-reload-top)
-  (org-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Test stuff, Ignore! ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun smishy-lock-spaces-down ()
-  "This function makes the entire document read only, except for a space on
-the work line. It is problematic as I still cant apply functions properly..."
-  (interactive)
-  ;; find the point that indicates the end of the 1st read only region
-  (goto-line smishy-work-line)
-  (setq mystr (buffer-substring (point-at-bol) (point-at-eol)))
-  (if (string-match "\* [A-Z]+ " mystr)
-      (progn
-        (setq readonly-region1-end (- (+ (point) (match-end 0)) 1)))
-    (setq readonly-region1-end nil))
-  ;; find the point that indicates the start of the 2nd read only region
-  (goto-line (+ smishy-work-line 1))
-  (setq readonly-region2-start (- (point) 1))
-  ;; set read only regions
-  (if readonly-region1-end
-      (add-text-properties (point-min) readonly-region1-end '(read-only t)))
-  (add-text-properties readonly-region2-start (point-max) '(read-only t)))
+  (mapc (lambda (file)
+          (add-to-list 'org-agenda-files (concat files-path file)))
+        '("personal.org"
+          "work.org"
+          "friends.org"
+          "captured.org"
+          "someday.org"
+          "references.org"
+          "sentia.org"))
+  ;; (pop-to-buffer "biglist.org")
+  (smishy--set-variables)
+  (smishy--set-faces)
+  (smishy--set-capture-templates (concat files-path "captured.org"))
+  (smishy--set-key-bindings)
+  ;; (smishy--auto-update-agenda-views-start)
+  (org-mode)
+  (org-agenda nil "h")
+  (delete-other-windows))
 
-(defun smishy-reload-tasks ()
-  "Function to reload .smishy-taskflow, used during devel"
-  (interactive)
-  (load-file "~/Code/smishy-taskflow/smishy-taskflow.el"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;; Fancy colors, Ignore! ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; #458b00
+;; #66cd00
+;; #76ee00
+;; #7fff00
+;; #008b00
+;; #00cd00
+;; #00ee00
+;; #00ff00
+;; #008b45
+;; #00cd66
+;; #00ee76
+;; #00ff7f
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Finished ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (provide 'smishy-taskflow)
