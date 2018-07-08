@@ -187,8 +187,6 @@ Sets keys for org-mode-map and org-agenda-mode-map.
        (define-key org-mode-map (kbd "C-t o") 'org-clock-out)
        (define-key org-mode-map (kbd "C-t c") 'org-clock-goto)
 
-       (define-key org-mode-map (kbd "C-c d") 'smishy-toggle-done)
-
        (define-key org-mode-map (kbd "C-c h") (lambda () (interactive) (org-agenda nil "h")))
        (define-key org-mode-map (kbd "C-c t") (lambda () (interactive) (org-todo-list "ACTION")))
        (define-key org-mode-map (kbd "C-c n") (lambda () (interactive) (org-agenda-list 56)))
